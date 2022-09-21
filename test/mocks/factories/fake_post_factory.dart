@@ -9,4 +9,6 @@ class FakePostFactory {
     author: faker.guid.guid(), 
     type: type ?? random.element(PostType.values)
   );
+
+  static List<PostEntity> makeFakePostList() => random.amount((i) => makeFakePost(), 5);
 }

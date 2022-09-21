@@ -25,6 +25,6 @@ class CreateRepostImpl implements CreateRepost {
       author: newAuthor,
       childId: post.id,
     );
-    return await repository.create(post: quotedPost);
+    return repository.create(post: quotedPost);
   }
 }

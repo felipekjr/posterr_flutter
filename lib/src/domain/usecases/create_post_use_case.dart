@@ -15,7 +15,6 @@ class CreatePostImpl implements CreatePost {
 
   @override
   Future<Either<Failure, PostEntity>> call(PostEntity entity) async {
-    return await repository.create(post: entity);
+    return repository.create(post: entity);
   }
-
 }
