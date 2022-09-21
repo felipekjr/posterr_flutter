@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 class PostEntity extends Equatable {
   final String id;
@@ -19,9 +18,8 @@ class PostEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, createdAt, author, type];
+  List<Object?> get props => [id, createdAt, author, type, text, childId];
 }
-
 
 enum PostType {
   normal,

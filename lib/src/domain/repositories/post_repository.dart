@@ -1,7 +1,10 @@
+import 'package:dartz/dartz.dart';
+
 import '../entities/entities.dart';
+import '../helpers/failure.dart';
 
 abstract class PostRepository {
-  Future<List<PostEntity>> getAll();
-  Future<List<PostEntity>> getByUser({required String id});
-  Future<List<PostEntity>> create({required PostEntity post});
+  Future<Either<Failure, List<PostEntity>>> getAll();
+  Future<Either<Failure, List<PostEntity>>> getByUser({required String id});
+  Future<Either<Failure, PostEntity>> create({required PostEntity post});
 }

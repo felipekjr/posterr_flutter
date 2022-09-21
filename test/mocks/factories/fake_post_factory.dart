@@ -1,0 +1,11 @@
+import 'package:faker/faker.dart';
+import 'package:posterr_flutter/src/domain/entities/entities.dart';
+
+class FakePostFactory {
+  static PostEntity makeFakePost({PostType? type}) => PostEntity(
+    id: faker.guid.guid(), 
+    createdAt: faker.date.dateTime(), 
+    author: faker.guid.guid(), 
+    type: type ?? random.element(PostType.values)
+  );
+}

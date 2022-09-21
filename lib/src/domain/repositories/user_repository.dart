@@ -1,5 +1,8 @@
+import 'package:dartz/dartz.dart';
+
 import '../entities/user_entity.dart';
+import '../helpers/failure.dart';
 
 abstract class UserRepository {
-  Future<UserEntity> getUser({required String id});
+  Future<Either<Failure, UserEntity>> getUser({required String id});
 }

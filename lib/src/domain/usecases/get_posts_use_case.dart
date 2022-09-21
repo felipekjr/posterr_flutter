@@ -1,5 +1,5 @@
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
+import '../entities/entities.dart';
 
-abstract class GetPostsUseCase {
+abstract class GetPosts {
   Future<List<PostEntity>> call();
 }

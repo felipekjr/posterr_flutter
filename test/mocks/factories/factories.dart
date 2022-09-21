@@ -1,0 +1,1 @@
+export './fake_post_factory.dart';
