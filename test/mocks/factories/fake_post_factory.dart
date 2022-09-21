@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:posterr_flutter/src/domain/entities/entities.dart';
+import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 
 class FakePostFactory {
   static PostEntity makeFakePost({PostType? type}) => PostEntity(

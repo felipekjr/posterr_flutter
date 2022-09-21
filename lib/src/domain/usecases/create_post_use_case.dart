@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
-import 'package:posterr_flutter/src/domain/repositories/post_repository.dart';
+
+import '../entities/entities.dart';
+import '../helpers/helpers.dart';
+import '../repositories/post_repository.dart';
 
 abstract class CreatePost {
   Future<Either<Failure, PostEntity>> call(PostEntity entity);

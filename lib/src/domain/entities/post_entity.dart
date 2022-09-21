@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../helpers/helpers.dart';
+
 class PostEntity extends Equatable {
   final String id;
   final DateTime createdAt;
@@ -17,12 +19,23 @@ class PostEntity extends Equatable {
     this.childId
   });
 
+  PostEntity copy({
+    String? id,
+    DateTime? createdAt,
+    String? author,
+    PostType? type,
+    String? text,
+    String? childId
+  }) => PostEntity(
+    id: id ?? this.id, 
+    author: author ?? this.author, 
+    createdAt: createdAt ?? this.createdAt, 
+    type: type ?? this.type,
+    text: text ?? this.text,
+    childId: childId ?? this.childId
+  );
+
   @override
   List<Object?> get props => [id, createdAt, author, type, text, childId];
 }
 
-enum PostType {
-  normal,
-  repost,
-  quote
-}
