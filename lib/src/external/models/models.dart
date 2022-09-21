@@ -1,0 +1,1 @@
+export './post/local_post_model.dart';
