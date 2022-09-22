@@ -16,7 +16,7 @@ class PostRepositoryImpl implements PostRepository {
       final res = await dataSource.save(post);
       return Right(res.toEntity());
     } catch (e) {
-      return Left(UnexpectedFailure(e.toString()));
+      return const Left(UnexpectedFailure('Unexpected error while creating the post'));
     }
   }
 
