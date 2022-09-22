@@ -22,8 +22,12 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future<Either<Failure, List<PostEntity>>> getAll() async {
-    // TODO: implement getAll
-    throw UnimplementedError();
+    try {
+      final res = await dataSource.getAll();
+      return Right(res.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return const Left(UnexpectedFailure('Error while loading posts'));
+    }
   }
 
   @override

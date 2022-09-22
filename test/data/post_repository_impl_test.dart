@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:posterr_flutter/src/core/extensions/extensions.dart';
@@ -52,6 +53,29 @@ void main() {
 
       expect(res.isLeft(), true);
       expect(res.left(), const UnexpectedFailure('Unexpected error while creating the post'));
+    });
+  });
+
+  group('Get All', () {
+    test('Should call datasource with correct values and return correct list', () async {
+      final fakeList = random.amount((i) => FakePostFactory.makeFakeModel(), 5);
+      for (var element in fakeList) { 
+        (element as PostModelMock).mockToEntity(FakePostFactory.makeFakePost());
+      }
+      dataSource.mockGetAll(fakeList);
+
+      final res = await sut.getAll();
+
+      verify(() => dataSource.getAll());
+      expect(res.right(), fakeList.map((e) => e.toEntity()).toList());
+    });
+
+    test('Should emit correct failure if fails', () async {
+      dataSource.mockGetAllError(Exception());
+
+      final res = await sut.getAll();
+
+      expect(res.left(), const UnexpectedFailure('Error while loading posts'));
     });
   });
 }
