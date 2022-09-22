@@ -1,7 +1,10 @@
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
+import 'package:flutter/foundation.dart';
+import '../../../domain/entities/entities.dart';
+import '../../../presentation/base_presenter.dart';
 
-abstract class HomePresenter {
+abstract class HomePresenter extends BasePresenter {
+  late final ValueNotifier<List<PostEntity>?> postsNotifier;
+
   Future<void> getAllPosts();
   Future<void> createNewPost();
 }
