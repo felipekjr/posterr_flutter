@@ -1,8 +1,8 @@
 import '../../domain/entities/entities.dart';
 import '../models/models.dart';
 
-abstract class PostDataSource {
+abstract class PostDataSource<T extends PostModel> {
   Future<PostModel> save(PostEntity post);
-  Future<List<PostModel>> getAll();
-  Future<List<PostModel>> getByAuthorId(String authorId);
+  Future<List<T>> getAll();
+  Future<List<T>> getByAuthorId(String authorId);
 }

@@ -3,9 +3,17 @@ import 'package:mocktail/mocktail.dart';
 import 'package:posterr_flutter/src/data/models/post_model.dart';
 import 'package:posterr_flutter/src/domain/entities/entities.dart';
 import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
+import 'package:posterr_flutter/src/external/external.dart';
 
 class PostEntityMock extends Mock implements PostEntity {}
-class PostModelMock extends Mock implements PostModel {
+class LocalPostModelMock extends Mock implements LocalPostModel {
+  @override
+  final String authorId;
+
+  LocalPostModelMock(this.authorId);
+
+  factory LocalPostModelMock.fromEntity(PostEntity e) => LocalPostModelMock(e.author);
+
   void mockToEntity(PostEntity res) => when(() => toEntity()).thenReturn(res);
 }
 
@@ -18,6 +26,14 @@ class FakePostFactory {
   );
 
   static List<PostEntity> makeFakePostList() => random.amount((i) => makeFakePost(), 5);
-
-  static PostModel makeFakeModel() => PostModelMock();
+  
+  static LocalPostModel makeLocalModel({String? authorId}) => LocalPostModel(
+    authorId: authorId ?? faker.guid.guid(),
+    creationDate: faker.date.dateTime(),
+    id: faker.guid.guid(), 
+    type: random.element(['N', 'R', 'Q'])
+  );
+  static LocalPostModelMock makeLocalModelMock({String? authorId}) => LocalPostModelMock(
+    authorId ?? faker.guid.guid(),
+  );
 }

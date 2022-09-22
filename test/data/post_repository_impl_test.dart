@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:posterr_flutter/src/core/extensions/extensions.dart';
 import 'package:posterr_flutter/src/data/repositories/repositories.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
 import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 
 import '../mocks/datasources/datasources.dart';
@@ -18,14 +17,14 @@ void main() {
   });
 
   setUp(() {
-    dataSource = PostDataSourceMock();
+    dataSource = PostDataSourceMock<LocalPostModelMock>();
 
     sut = PostRepositoryImpl(
-      dataSource: dataSource
+      localDataSource: dataSource
     );
   });
 
-  group('Create', () {
+  group('[Create]', () {
     test('Should call datasource with correct values', () async {
       final fakePost = FakePostFactory.makeFakePost();
 
@@ -36,8 +35,8 @@ void main() {
 
     test('Should return correct value if success', () async {
       final fakePost = FakePostFactory.makeFakePost();
-      final fakeModel = FakePostFactory.makeFakeModel();
-      (fakeModel as PostModelMock).mockToEntity(fakePost);
+      final fakeModel = FakePostFactory.makeLocalModelMock();
+      fakeModel.mockToEntity(fakePost);
       dataSource.mockCreate(fakeModel);
 
       final res = await sut.create(post: fakePost);
@@ -56,11 +55,11 @@ void main() {
     });
   });
 
-  group('Get All', () {
+  group('[Get All]', () {
     test('Should call datasource with correct values and return correct list', () async {
-      final fakeList = random.amount((i) => FakePostFactory.makeFakeModel(), 5);
+      final fakeList = random.amount((i) => FakePostFactory.makeLocalModelMock(), 5);
       for (var element in fakeList) { 
-        (element as PostModelMock).mockToEntity(FakePostFactory.makeFakePost());
+        element.mockToEntity(FakePostFactory.makeFakePost());
       }
       dataSource.mockGetAll(fakeList);
 
@@ -79,12 +78,12 @@ void main() {
     });
   });
 
-  group('Get by user', () {
+  group('[Get by user]', () {
     test('Should call datasource with correct values and return correct list', () async {
       final fakeId = faker.guid.guid();
-      final fakeList = random.amount((i) => FakePostFactory.makeFakeModel(), 5);
+      final fakeList = random.amount((i) => FakePostFactory.makeLocalModelMock(), 5);
       for (var element in fakeList) { 
-        (element as PostModelMock).mockToEntity(FakePostFactory.makeFakePost());
+        element.mockToEntity(FakePostFactory.makeFakePost());
       }
       dataSource.mockGetByAuthorId(fakeList);
 
