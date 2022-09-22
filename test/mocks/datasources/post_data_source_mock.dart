@@ -8,4 +8,7 @@ class PostDataSourceMock extends Mock implements PostDataSource {
 
   void mockGetAll(List<PostModel> list) => when(() => getAll()).thenAnswer((_) => Future.value(list));
   void mockGetAllError(Exception ex) => when(() => getAll()).thenThrow(ex);
+
+  void mockGetByAuthorId(List<PostModel> list) => when(() => getByAuthorId(any())).thenAnswer((_) => Future.value(list));
+  void mockGetByAuthorIdError(Exception ex) => when(() => getByAuthorId(any())).thenThrow(ex);
 }

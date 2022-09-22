@@ -78,4 +78,28 @@ void main() {
       expect(res.left(), const UnexpectedFailure('Error while loading posts'));
     });
   });
+
+  group('Get by user', () {
+    test('Should call datasource with correct values and return correct list', () async {
+      final fakeId = faker.guid.guid();
+      final fakeList = random.amount((i) => FakePostFactory.makeFakeModel(), 5);
+      for (var element in fakeList) { 
+        (element as PostModelMock).mockToEntity(FakePostFactory.makeFakePost());
+      }
+      dataSource.mockGetByAuthorId(fakeList);
+
+      final res = await sut.getByUser(id: fakeId);
+
+      verify(() => dataSource.getByAuthorId(fakeId));
+      expect(res.right(), fakeList.map((e) => e.toEntity()).toList());
+    });
+
+    test('Should emit correct failure if fails', () async {
+      dataSource.mockGetByAuthorIdError(Exception());
+
+      final res = await sut.getByUser(id: faker.guid.guid());
+
+      expect(res.left(), const UnexpectedFailure('Error while loading posts'));
+    });
+  });
 }

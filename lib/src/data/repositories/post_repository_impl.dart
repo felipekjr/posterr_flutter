@@ -32,7 +32,11 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future<Either<Failure, List<PostEntity>>> getByUser({required String id}) async {
-    // TODO: implement getByUser
-    throw UnimplementedError();
+    try {
+      final res = await dataSource.getByAuthorId(id);
+      return Right(res.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return const Left(UnexpectedFailure('Error while loading posts'));
+    }
   }
 }
