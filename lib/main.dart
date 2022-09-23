@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'src/core/navigation/navigation.dart';
 import 'src/core/routes/route.dart';
+import 'src/ui/theme/theme.dart';
 
-void main() {
+void main() async {
   runApp(const Posterr());
 }
 
@@ -33,6 +33,8 @@ class _PosterrState extends State<Posterr> {
         NavigatorMiddleware()
       ],
       navigatorKey: _navigationKey,
+      theme: CustomTheme.data,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

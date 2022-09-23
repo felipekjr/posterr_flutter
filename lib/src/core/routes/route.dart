@@ -10,6 +10,7 @@ class NamedRoute {
 class RouteHandler {
   static final routes = {
     NamedRoute.home: (_) => const HomePage(),
+    NamedRoute.profile: (_) => const ProfilePage()
   };
 
   static Widget _openPage<T>(BuildContext context, Widget Function(T) onPage) {
