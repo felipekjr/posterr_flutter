@@ -27,6 +27,7 @@ class CreateQuoteImpl implements CreateQuote {
       text: text,
       author: quoteAuthor,
       childId: post.id,
+      newPost: true,
     );
     return repository.create(post: quotedPost);
   }

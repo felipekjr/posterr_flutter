@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../helpers/helpers.dart';
 
 class PostEntity extends Equatable {
-  final String id;
+  final String? id;
   final DateTime createdAt;
   final String author;
   final PostType type;
@@ -11,10 +11,10 @@ class PostEntity extends Equatable {
   final String? childId;
 
   const PostEntity({
-    required this.id,
     required this.createdAt,
     required this.author,
     required this.type,
+    this.id,
     this.text,
     this.childId
   });
@@ -25,9 +25,10 @@ class PostEntity extends Equatable {
     String? author,
     PostType? type,
     String? text,
-    String? childId
+    String? childId,
+    bool newPost = false
   }) => PostEntity(
-    id: id ?? this.id, 
+    id: newPost ? null : id ?? this.id, 
     author: author ?? this.author, 
     createdAt: createdAt ?? this.createdAt, 
     type: type ?? this.type,
