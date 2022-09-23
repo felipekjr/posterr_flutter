@@ -31,11 +31,12 @@ void main() {
     getActiveUserMock = GetActiveUserMock();
 
     sut = ValueNotifierHomePresenter(
-        createPost: createPostMock,
-        createQuote: createQuoteMock,
-        createRepost: createRepostMock,
-        getPosts: getPostsMock,
-        getActiveUser: getActiveUserMock);
+      createPost: createPostMock,
+      createQuote: createQuoteMock,
+      createRepost: createRepostMock,
+      getPosts: getPostsMock,
+      getActiveUser: getActiveUserMock,
+    );
     sut.onInit();
     sut.state.addListener(() {
       states.add(sut.state.value);
