@@ -7,10 +7,14 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      onPressed: onTap,
-      icon: Icon(icon),
+    return SizedBox(
+      width: 20,
+      height: 20,
+      child: IconButton(
+      padding: EdgeInsets.zero,
+        onPressed: onTap,
+        icon: Icon(icon),
+      ),
     );
   }
 }

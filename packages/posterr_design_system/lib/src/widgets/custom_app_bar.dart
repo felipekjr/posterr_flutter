@@ -35,12 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () => Navigator.of(context).pop(),
             )
           : null,
-      actions: action != null
-          ? [
-              action!,
-              const SizedBox(width: Spacing.x2),
-            ]
-          : [],
+      actions: action != null ? [action!] : [],
       bottom: tabBar,
       automaticallyImplyLeading: false,
       elevation: 2,

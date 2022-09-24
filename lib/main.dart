@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:posterr_design_system/posterr_design_system.dart';
 import 'src/core/navigation/navigation.dart';
 import 'src/core/routes/route.dart';
-import 'src/ui/theme/theme.dart';
 
 void main() async {
   runApp(const Posterr());

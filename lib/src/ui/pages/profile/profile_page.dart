@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/theme.dart';
-import '../../widgets/widgets.dart';
+import 'package:posterr_design_system/posterr_design_system.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
