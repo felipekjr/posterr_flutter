@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
 import 'package:posterr_flutter/src/core/extensions/extensions.dart';
-import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
 import 'package:posterr_flutter/src/ui/pages/base_page.dart';
+import 'package:posterr_flutter/src/ui/pages/pages.dart';
 import 'package:posterr_flutter/src/ui/widgets/widgets.dart';
 
 import '../../../domain/entities/entities.dart';
@@ -18,53 +19,32 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final user = UserEntity(
-      username: 'Felipe Rodrigues',
-      createdAt: DateTime.now().subtract(Duration(days: 60)));
-
-  final userPosts = [
-    PostEntity(
-      createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-      author: 'Felipe Rodrigues',
-      type: PostType.normal,
-      text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-    ),
-    PostEntity(
-      createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-      author: 'Felipe Rodrigues',
-      type: PostType.normal,
-      text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-    ),
-    PostEntity(
-      createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-      author: 'Felipe Rodrigues',
-      type: PostType.normal,
-      text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-    ),
-    PostEntity(
-      createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-      author: 'Felipe Rodrigues',
-      type: PostType.normal,
-      text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-    ),
-    PostEntity(
-      createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-      author: 'Felipe Rodrigues',
-      type: PostType.normal,
-      text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-    )
-  ];
-
+  final ProfilePresenter presenter = GetIt.I.get<ProfilePresenter>();
   final postsTypeCount = {
     PostType.normal: 2,
     PostType.quote: 3,
     PostType.repost: 4
   };
+
+  @override
+  void initState() {
+    presenter.onInit();
+    presenter.getLoggedUser();
+    presenter.getPosts();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    presenter.onDispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasePage(
-        child: SingleChildScrollView(
-            child: Column(
+      child: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
@@ -76,8 +56,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             _userFeed()
           ],
-        )),
-        title: 'User profile');
+        ),
+      ),
+      title: 'User profile',
+    );
   }
 
   Widget _userFeed() {
@@ -94,10 +76,15 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(
           height: Spacing.x1,
         ),
-        Feed(
-          posts: userPosts,
-          externalScroll: true,
-          showActions: false,
+        ValueListenableBuilder<List<PostEntity>>(
+          valueListenable: presenter.postsNotifier,
+          builder: (context, userPosts, _) {
+            return Feed(
+              posts: userPosts,
+              externalScroll: true,
+              showActions: false,
+            );
+          },
         )
       ],
     );
@@ -105,31 +92,38 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Center _userInfos() {
     return Center(
-      child: Column(
-        children: [
-          Text(user.username, style: TextStyles.largeBold()),
-          const SizedBox(
-            height: Spacing.x1,
-          ),
-          Text(
-            'Joined ${user.createdAt.humanized()}',
-            style: TextStyles.normal(),
-          ),
-          const SizedBox(
-            height: Spacing.x1,
-          ),
-          Wrap(
-            spacing: Spacing.x1,
-            children: postsTypeCount.entries
-                .map(
-                  (e) => LabelValueChip(
-                    labelText: e.key.label,
-                    value: e.value.toString(),
-                  ),
+      child: ValueListenableBuilder<UserEntity?>(
+        valueListenable: presenter.loggedUserNotifier,
+        builder: (context, user, _) {
+          return user != null
+              ? Column(
+                  children: [
+                    Text(user.username, style: TextStyles.largeBold()),
+                    const SizedBox(
+                      height: Spacing.x1,
+                    ),
+                    Text(
+                      'Joined ${user.createdAt.humanized()}',
+                      style: TextStyles.normal(),
+                    ),
+                    const SizedBox(
+                      height: Spacing.x1,
+                    ),
+                    Wrap(
+                      spacing: Spacing.x1,
+                      children: postsTypeCount.entries
+                          .map(
+                            (e) => LabelValueChip(
+                              labelText: e.key.label,
+                              value: e.value.toString(),
+                            ),
+                          )
+                          .toList(),
+                    )
+                  ],
                 )
-                .toList(),
-          )
-        ],
+              : const SizedBox();
+        },
       ),
     );
   }

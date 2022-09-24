@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:posterr_flutter/src/data/models/models.dart';
-import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
+
+import '../../../data/models/models.dart';
+import '../../../domain/entities/user_entity.dart';
 
 part 'local_user_model.g.dart';
 
@@ -21,12 +22,19 @@ class LocalUserModel extends HiveObject implements UserModel {
   LocalUserModel(this.username, this.creationDate, {this.id});
 
   factory LocalUserModel.fromEntity(UserEntity e) {
+    return LocalUserModel(e.username, e.createdAt);
+  }
+
+  LocalUserModel copy({String? id}) {
     return LocalUserModel(
-      e.username, e.createdAt
+      username,
+      creationDate,
+      id: id ?? id,
     );
   }
 
-  LocalUserModel copy({
-    String? id
-  }) => LocalUserModel(username, creationDate, id: id ?? id);
+  @override
+  UserEntity toEntity() {
+    return UserEntity(username: username, createdAt: creationDate);
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:posterr_flutter/src/core/services/services.dart';
 
 import '../core/extensions/extensions.dart';
 import '../domain/entities/entities.dart';
@@ -13,14 +14,14 @@ class ValueNotifierHomePresenter implements HomePresenter {
   final CreateQuote createQuote;
   final CreateRepost createRepost;
   final GetPosts getPosts;
-  final GetActiveUser getActiveUser;
+  final UserSessionService userSessionService;
 
   ValueNotifierHomePresenter({
     required this.createPost,
     required this.createQuote,
     required this.createRepost,
     required this.getPosts,
-    required this.getActiveUser,
+    required this.userSessionService,
   });
 
   @override
@@ -45,7 +46,7 @@ class ValueNotifierHomePresenter implements HomePresenter {
   }) async {
     try {
       state.value = const UILoadingState();
-      final author =(await getActiveUser()).right();
+      final author = userSessionService.activeUsername!;
 
       final res = await _makePost(postType, postEntity, author, quote: quote);
 
@@ -76,10 +77,10 @@ class ValueNotifierHomePresenter implements HomePresenter {
   Future<Either<Failure, PostEntity>> _makePost(
     PostType type,
     PostEntity entity,
-    UserEntity loggedUser, {
+    String loggedUser, {
     String? quote,
   }) {
-    final newPost = entity.copy(author: loggedUser.username);
+    final newPost = entity.copy(author: loggedUser);
     if (type == PostType.quote) {
       return createQuote(
         post: newPost,

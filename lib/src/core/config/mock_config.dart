@@ -1,3 +1,6 @@
+import 'package:get_it/get_it.dart';
+import 'package:posterr_flutter/src/core/services/services.dart';
+
 import '../../domain/entities/entities.dart';
 import '../../domain/helpers/helpers.dart';
 import '../factories/data_sources/data_sources.dart';
@@ -6,6 +9,10 @@ class MockConfig {
   static Future<void> insertDefaultData() async {
     final userDS = makeLocalUserDataSource();
     final postDS = makeLocalPostDataSource();
+
+    final userSession = GetIt.I.get<UserSessionService>();
+    const activeUsername = 'John Doe';
+    userSession.setActiveUser(activeUsername);
 
     // Create users
     userDS.save(
@@ -24,8 +31,9 @@ class MockConfig {
     postDS.save(
       PostEntity(
         createdAt: DateTime.now(),
-        author: 'Felipe Rodrigues',
+        author: activeUsername,
         type: PostType.normal,
+        text: 'My first post'
       ),
     );
   }

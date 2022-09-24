@@ -5,4 +5,5 @@ import '../helpers/failure.dart';
 
 abstract class UserRepository {
   Future<Either<Failure, UserEntity>> getUser({required String username});
+  Future<Either<Failure, List<UserEntity>>> getUsers();
 }

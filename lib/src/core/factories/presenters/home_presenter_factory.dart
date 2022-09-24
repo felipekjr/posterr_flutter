@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:posterr_flutter/src/core/services/services.dart';
 
 import '../../../domain/usecases/usecases.dart';
 import '../../../presentation/value_notifier_home_presenter.dart';
@@ -10,6 +11,6 @@ HomePresenter makeHomePresenter() {
     createQuote: GetIt.I.get<CreateQuote>(),
     createRepost: GetIt.I.get<CreateRepost>(),
     getPosts: GetIt.I.get<GetPosts>(),
-    getActiveUser: GetIt.I.get<GetActiveUser>(),
+    userSessionService: GetIt.I.get<UserSessionService>()
   );
 }

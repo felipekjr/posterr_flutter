@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:posterr_flutter/src/data/data.dart';
-import 'package:posterr_flutter/src/data/models/post_model.dart';
-import 'package:posterr_flutter/src/domain/entities/post_entity.dart';
-import 'package:posterr_flutter/src/external/external.dart';
+
+import '../../../data/data.dart';
+import '../../../domain/entities/post_entity.dart';
+import '../../../external/external.dart';
 
 class LocalPostDataSource implements PostDataSource<LocalPostModel> {
   final Box<LocalPostModel> box;

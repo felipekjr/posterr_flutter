@@ -1,10 +1,11 @@
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../core/factories/factories.dart';
-import '../../../domain/usecases/get_active_user_use_case.dart';
+import '../../../domain/usecases/usecases.dart';
 
-Future<GetActiveUser> makeGetActiveUser() async => GetActiveUserImpl(
-  sharedPreferences: await SharedPreferences.getInstance(), 
+GetUsers makeGetUsers() => GetUsersImpl(
+  repository: makeUserRepository()
+);
+
+GetUser makeGetUser() => GetUserImpl(
   repository: makeUserRepository()
 );

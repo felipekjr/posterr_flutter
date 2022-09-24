@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 
 import '../../../data/models/models.dart';
 import '../../../domain/entities/post_entity.dart';
+import '../../../domain/helpers/helpers.dart';
 
 part 'local_post_model.g.dart';
 
@@ -56,7 +56,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   @override
   PostEntity toEntity() {
     return PostEntity(
-      id: id!,
+      id: id,
       createdAt: creationDate,
       author: authorId,
       type: _getType(type),
@@ -68,6 +68,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       authorId: e.author,
       creationDate: e.createdAt,
       type: _getTypeString(e.type),
+      text: e.text
     );
   }
 
