@@ -5,7 +5,9 @@ import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 import '../../../data/models/models.dart';
 import '../../../domain/entities/post_entity.dart';
 
-@HiveType(typeId: 0)
+part 'local_post_model.g.dart';
+
+@HiveType(typeId: 1)
 class LocalPostModel extends HiveObject with EquatableMixin implements PostModel {
   @override
   @HiveField(0)

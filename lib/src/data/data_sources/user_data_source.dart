@@ -1,8 +1,8 @@
 import '../../domain/entities/entities.dart';
 import '../models/models.dart';
 
-abstract class UserDataSource<T extends PostModel> {
-  Future<PostModel> save(PostEntity post);
-  Future<List<T>> getAll();
-  Future<List<T>> getByAuthorId(String authorId);
+abstract class UserDataSource<T extends UserModel> {
+  Future<T> save(UserEntity user);
+  Future<T> setActive(String username);
+  Future<T> getActive(String username);
 }

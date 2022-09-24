@@ -12,12 +12,12 @@ class BindingsConfig {
     final getActiveUserUseCase = await makeGetActiveUser();
     
     // Use cases
-    g.registerSingleton<GetPosts>(makeGetAllPosts());
-    g.registerSingleton<GetUserPosts>(makeGetUserPosts());
-    g.registerSingleton<CreatePost>(makeCreatePost());
-    g.registerSingleton<CreateQuote>(makeCreateQuot());
-    g.registerSingleton<CreateRepost>(makeCreateRepost());
-    g.registerSingleton<GetActiveUser>(getActiveUserUseCase);
+    g.registerLazySingleton<GetPosts>(() => makeGetAllPosts());
+    g.registerLazySingleton<GetUserPosts>(() => makeGetUserPosts());
+    g.registerLazySingleton<CreatePost>(() => makeCreatePost());
+    g.registerLazySingleton<CreateQuote>(() => makeCreateQuot());
+    g.registerLazySingleton<CreateRepost>(() => makeCreateRepost());
+    g.registerLazySingleton<GetActiveUser>(() => getActiveUserUseCase);
 
     // Presenters
     g.registerLazySingleton<HomePresenter>(() => makeHomePresenter());

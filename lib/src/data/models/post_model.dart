@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
+import '../../domain/entities/entities.dart';
 
 abstract class PostModel {
   final String? id;

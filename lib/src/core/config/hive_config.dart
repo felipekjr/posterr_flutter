@@ -5,13 +5,13 @@ import '../../external/external.dart';
 import '../consts/consts.dart';
 
 class HiveConfig {
-  
-   static Future<void> start() async {
+  static Future<void> start() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
 
     // Register adapter
-
+    Hive.registerAdapter(LocalUserModelAdapter());
+    Hive.registerAdapter(LocalPostModelAdapter());
 
     // Open box
     await HiveConfig.open<LocalUserModel>(Consts.userBox);

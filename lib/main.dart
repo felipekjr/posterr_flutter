@@ -9,6 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveConfig.start();
   await BindingsConfig.start();
+  await MockConfig.insertDefaultData();
+
   runApp(const Posterr());
 }
 
