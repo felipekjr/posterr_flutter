@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String title;
@@ -57,7 +57,7 @@ class PrimaryButton extends StatelessWidget {
         ],
         Text(
           title,
-          style: TextStyles.normal(color: AppColors.white),
+          style: TextStyles.mediumLight(color: AppColors.white),
         ),
       ],
     );

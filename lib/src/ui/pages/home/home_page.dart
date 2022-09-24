@@ -5,6 +5,7 @@ import 'package:posterr_flutter/src/core/navigation/navigation_service.dart';
 import 'package:posterr_flutter/src/core/routes/route.dart';
 import 'package:posterr_flutter/src/domain/entities/entities.dart';
 import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
+import 'package:posterr_flutter/src/ui/pages/base_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,8 +23,8 @@ class _HomePageState extends State<HomePage> {
   );
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
+    return BasePage(
+      customAppBar: CustomAppBar(
         title: 'Posterr',
         hideLeading: true,
         action: Padding(
@@ -36,28 +37,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            Spacing.x1,
-            Spacing.x1,
-            Spacing.x1,
-            0,
-          ),
-          child: ListView.separated(
-            itemCount: 50,
-            itemBuilder: (context, index) {
-              return SimplePostCard(
-                author: post.author,
-                date: post.createdAt.humanized(),
-                text: post.text ?? '',
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(
-              height: Spacing.x1,
-            ),
-          ),
-        ),
+      child: _posts(),
+    );
+  }
+
+  ListView _posts() {
+    return ListView.separated(
+      itemCount: 50,
+      itemBuilder: (context, index) {
+        return SimplePostCard(
+          author: post.author,
+          date: post.createdAt.humanized(),
+          text: post.text ?? '',
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(
+        height: Spacing.x1,
       ),
     );
   }

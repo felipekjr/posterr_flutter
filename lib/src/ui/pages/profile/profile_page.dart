@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
+import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
+import 'package:posterr_flutter/src/ui/pages/base_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({
+    super.key,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -11,23 +15,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'User profile',
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: Spacing.x4, horizontal: Spacing.x4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('oi'),
-            ],
-          ),
-        ),
-      ),
-    );
+    return BasePage(child: Column(), title: 'User profile');
   }
 }

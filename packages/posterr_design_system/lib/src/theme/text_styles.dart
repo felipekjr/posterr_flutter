@@ -20,6 +20,12 @@ class TextStyles {
     fontWeight: FontWeight.w300,
   );
 
+  static TextStyle mediumLight({Color? color}) => TextStyle(
+    fontSize: 16.0,
+    color: color ?? AppColors.black,
+    fontWeight: FontWeight.normal,
+  );
+
   static TextStyle medium({Color? color}) => TextStyle(
     fontSize: 16.0,
     color: color ?? AppColors.black,

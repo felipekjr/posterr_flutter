@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../theme/theme.dart';
-import 'custon_icon_button.dart';
+import '../../theme/theme.dart';
+import '../buttons/custon_icon_button.dart';
+import 'post_header.dart';
 
 class SimplePostCard extends StatelessWidget {
   final String date;
@@ -27,7 +28,7 @@ class SimplePostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _header(),
+            PostHeader(author: author, date: date),
             const SizedBox(height: Spacing.x1),
             Text(
               text,
@@ -59,34 +60,6 @@ class SimplePostCard extends StatelessWidget {
       ],
     );
   }
-
-  Row _header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 25,
-              height: 25,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: AppColors.grey),
-            ),
-            const SizedBox(
-              width: Spacing.x1,
-            ),
-            Text(
-              author,
-              style: TextStyles.normalBold(),
-            ),
-          ],
-        ),
-        Text(
-          date,
-          style: TextStyles.smallThin(),
-        )
-      ],
-    );
-  }
 }
+
+
