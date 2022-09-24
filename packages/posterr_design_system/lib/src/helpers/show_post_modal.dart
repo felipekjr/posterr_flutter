@@ -6,6 +6,7 @@ import '../widgets/widgets.dart';
 showPostModal(BuildContext context, {required Function(String) onSave}) {
   showModalBottomSheet<void>(
     context: context,
+    backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return PostModalBody(
         onSave: onSave,

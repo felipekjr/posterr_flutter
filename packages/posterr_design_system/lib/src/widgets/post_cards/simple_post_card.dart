@@ -8,11 +8,13 @@ class SimplePostCard extends StatelessWidget {
   final String date;
   final String text;
   final String author;
+  final bool showFooter;
   const SimplePostCard({
     Key? key,
     required this.date,
     required this.text,
     required this.author,
+    this.showFooter = true
   }) : super(key: key);
 
   @override
@@ -35,7 +37,10 @@ class SimplePostCard extends StatelessWidget {
               style: TextStyles.normal(color: Colors.black),
             ),
             const SizedBox(height: Spacing.x1),
-            _footer()
+            Visibility(
+              visible: showFooter,
+              child: _footer()
+            )
           ],
         ),
       ),

@@ -34,17 +34,7 @@ class _BasePageState extends State<BasePage> {
               },
             );
           }),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            Spacing.x1,
-            Spacing.x1,
-            Spacing.x1,
-            0,
-          ),
-          child: widget.child,
-        ),
-      ),
+      body:  widget.child,
     );
   }
 }

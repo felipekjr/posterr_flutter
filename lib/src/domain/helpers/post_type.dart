@@ -1,5 +1,9 @@
 enum PostType {
-  normal,
-  repost,
-  quote
+  normal(label: 'Post'),
+  repost(label: 'Repost'),
+  quote(label: 'Quote-post');
+
+  final String label;
+
+  const PostType({required this.label});
 }

@@ -20,11 +20,11 @@ class PostHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: 25,
-              height: 25,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: AppColors.grey),
+            CircleAvatar(
+              backgroundColor: AppColors.white,
+              backgroundImage:  NetworkImage(
+                'https://api.lorem.space/image/face?w=200&h=200&hash=$author'
+              ),
             ),
             const SizedBox(
               width: Spacing.x1,

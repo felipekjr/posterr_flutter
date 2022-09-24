@@ -7,3 +7,4 @@ export './custom_spinner.dart';
 export './error_dialog.dart';
 export 'quote_input.dart';
 export './post_cards/simple_post_card.dart';
+export './label_value_chip.dart';

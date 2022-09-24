@@ -50,6 +50,18 @@ class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle large({Color? color}) => TextStyle(
+    fontSize: 20.0,
+    color: color ?? AppColors.black,
+    fontWeight: FontWeight.normal,
+  );
+
+  static TextStyle largeBold({Color? color}) => TextStyle(
+    fontSize: 20.0,
+    color: color ?? AppColors.black,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle buttonText({Color? color}) => TextStyle(
     fontSize: 16.0,
     color: color ?? AppColors.black,
