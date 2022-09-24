@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
+
 import '../../../domain/entities/entities.dart';
+import '../../../domain/helpers/helpers.dart';
 import '../../../presentation/base_presenter.dart';
 
 abstract class HomePresenter extends BasePresenter {

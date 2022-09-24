@@ -18,6 +18,7 @@ PS: if you use [FVM](https://fvm.app/) run ```sh flutter_run_fvm.sh```
 
 ### Critique
  - Use cases frequently only calls repositories, becoming a middleman (anti pattern)
+ - Make abstraction for D.I
 ...
 
 

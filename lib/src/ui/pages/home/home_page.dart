@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
-import 'package:posterr_flutter/src/core/extensions/extensions.dart';
-import 'package:posterr_flutter/src/core/navigation/navigation_service.dart';
-import 'package:posterr_flutter/src/core/routes/route.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
-import 'package:posterr_flutter/src/ui/pages/base_page.dart';
 
+import '../../../core/extensions/extensions.dart';
+import '../../../core/navigation/navigation_service.dart';
+import '../../../core/routes/route.dart';
+import '../../../domain/entities/entities.dart';
+import '../../../domain/helpers/helpers.dart';
+import '../../../ui/pages/base_page.dart';
+import '../../../ui/pages/home/home.dart';
 import '../../widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,19 +19,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final posts = [PostEntity(
-    createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-    author: 'Felipe Rodrigues',
-    type: PostType.normal,
-    text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas",
-  ),
-  PostEntity(
-    createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-    author: 'Felipe 2',
-    type: PostType.normal,
-    text: "sasasasasasasasasasa sasassasa asasasasa ssaasasas assaas ASKSAKSAKSAKASKSAKASKSAKAS",
-  ),
-  ];
+  final presenter = GetIt.I<HomePresenter>();
+
+  @override
+  void initState() {
+    presenter.onInit();
+    presenter.getAllPosts();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    presenter.onDispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasePage(
@@ -46,7 +50,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      child: Feed(posts: posts,),
+      child: ValueListenableBuilder<List<PostEntity>>(
+        valueListenable: presenter.postsNotifier,
+        builder: (context, posts, _) {
+          return posts.isNotEmpty
+              ? Feed(posts: posts)
+              : const Center(
+                  child: Text('Empty feed'),
+                );
+        },
+      ),
     );
   }
 }

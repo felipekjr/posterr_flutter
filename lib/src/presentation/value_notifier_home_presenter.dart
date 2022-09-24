@@ -1,12 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/src/foundation/change_notifier.dart';
-import 'package:posterr_flutter/src/core/extensions/extensions.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
-import 'package:posterr_flutter/src/domain/usecases/get_active_user_use_case.dart';
-import 'package:posterr_flutter/src/domain/usecases/usecases.dart';
-import 'package:posterr_flutter/src/presentation/helpers/ui_state.dart';
+import 'package:flutter/foundation.dart';
 
+import '../core/extensions/extensions.dart';
+import '../domain/entities/entities.dart';
 import '../domain/helpers/helpers.dart';
+import '../domain/usecases/usecases.dart';
+import '../presentation/helpers/ui_state.dart';
 import '../ui/pages/home/home.dart';
 
 class ValueNotifierHomePresenter implements HomePresenter {

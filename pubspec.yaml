@@ -23,6 +23,7 @@ dependencies:
 
   posterr_design_system:
     path: ./packages/posterr_design_system
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

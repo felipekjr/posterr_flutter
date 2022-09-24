@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
+
+import 'src/core/config/config.dart';
 import 'src/core/navigation/navigation.dart';
 import 'src/core/routes/route.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveConfig.start();
+  await BindingsConfig.start();
   runApp(const Posterr());
 }
 
