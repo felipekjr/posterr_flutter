@@ -29,7 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     presenter.onInit();
-    presenter.getLoggedUser();
     presenter.getPosts();
     super.initState();
   }

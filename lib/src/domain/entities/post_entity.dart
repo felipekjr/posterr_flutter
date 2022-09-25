@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
 
 import '../helpers/helpers.dart';
 
 class PostEntity extends Equatable {
   final String? id;
   final DateTime createdAt;
-  final String author;
+  final UserEntity author;
   final PostType type;
   final String? text;
   final String? childId;
@@ -22,7 +23,7 @@ class PostEntity extends Equatable {
   PostEntity copy({
     String? id,
     DateTime? createdAt,
-    String? author,
+    UserEntity? author,
     PostType? type,
     String? text,
     String? childId,

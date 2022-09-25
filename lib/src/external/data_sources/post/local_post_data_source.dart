@@ -16,13 +16,15 @@ class LocalPostDataSource implements PostDataSource<LocalPostModel> {
 
   @override
   Future<List<LocalPostModel>> getByAuthorId(String authorId) async {
-    return box.values.where((LocalPostModel e) => e.authorId == authorId).toList();
+    return box.values.where((LocalPostModel e) => e.author.id == authorId).toList();
   }
 
   @override
   Future<LocalPostModel> save(PostEntity post) async {
     final postModel = LocalPostModel.fromEntity(post);
     final id = await box.add(postModel);
-    return postModel.copy(id: id.toString());
+    final postWithId = postModel.copy(id: id.toString());
+    await box.put(id, postWithId);
+    return postWithId;
   }
 }

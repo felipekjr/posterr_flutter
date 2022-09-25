@@ -50,9 +50,9 @@ class _HomePageState extends State<HomePage> {
         presenter.makeNewPost(
           PostEntity(
             createdAt: DateTime.now(),
-            author: '',
             type: PostType.normal,
             text: v,
+            author: presenter.userSessionService.activeUser!
           ),
           postType: PostType.normal,
         );

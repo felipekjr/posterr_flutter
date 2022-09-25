@@ -17,7 +17,7 @@ class LocalPostModelAdapter extends TypeAdapter<LocalPostModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return LocalPostModel(
-      authorId: fields[1] as String,
+      author: fields[1] as LocalUserModel,
       creationDate: fields[2] as DateTime,
       type: fields[3] as String,
       text: fields[4] as String?,
@@ -33,7 +33,7 @@ class LocalPostModelAdapter extends TypeAdapter<LocalPostModel> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.authorId)
+      ..write(obj.author)
       ..writeByte(2)
       ..write(obj.creationDate)
       ..writeByte(3)

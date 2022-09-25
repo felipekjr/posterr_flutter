@@ -27,34 +27,32 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   late ValueNotifier<UIState> state;
 
   @override
-  late ValueNotifier<UserEntity?> loggedUserNotifier;
+  late ValueNotifier<UserEntity> loggedUserNotifier;
 
   @override
   void onInit() {
     state = ValueNotifier(const UIInitialState());
     postsNotifier = ValueNotifier([]);
-    loggedUserNotifier = ValueNotifier(null);
+    loggedUserNotifier = ValueNotifier(userSessionService.activeUser!);
   }
 
-  @override
-  Future<void> getLoggedUser() async {
-    state.value = const UILoadingState();
-    final res = await getUser(userSessionService.activeUsername!);
-    res.fold(
-      (failure) => _setStatus(UIErrorState(failure.message)),
-      (data) {
-        loggedUserNotifier.value = data;
-        _setStatus(const UIInitialState());
-      },
-    );
-  }
+  // @override
+  // Future<void> getLoggedUser() async {
+  //   state.value = const UILoadingState();
+  //   final res = await getUser(userSessionService.activeUsername!);
+  //   res.fold(
+  //     (failure) => _setStatus(UIErrorState(failure.message)),
+  //     (data) {
+  //       loggedUserNotifier.value = data;
+  //       _setStatus(const UIInitialState());
+  //     },
+  //   );
+  // }
 
   @override
   Future<void> getPosts() async {
     state.value = const UILoadingState();
-    final loggedUserId = loggedUserNotifier.value?.username ??
-        userSessionService.activeUsername!;
-    final res = await getUserPosts(userId: loggedUserId);
+    final res = await getUserPosts(userId: loggedUserNotifier.value.id!);
     res.fold(
       (failure) => _setStatus(UIErrorState(failure.message)),
       (data) {
@@ -68,7 +66,7 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   Future<void> makeSimplePost({required String text}) async {
     try {
       state.value = const UILoadingState();
-      final author = userSessionService.activeUsername!;
+      final author = userSessionService.activeUser!;
       final post = PostEntity(
         createdAt: DateTime.now(),
         author: author,

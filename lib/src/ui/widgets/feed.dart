@@ -31,7 +31,7 @@ class Feed extends StatelessWidget {
       itemBuilder: (context, index) {
         final post = posts[index];
         return SimplePostCard(
-          author: post.author,
+          author: post.author.username,
           date: post.createdAt.humanized(),
           text: post.text ?? '',
           showFooter: showActions && userSession.activeUsername != post.author

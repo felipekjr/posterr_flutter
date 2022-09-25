@@ -6,7 +6,7 @@ import 'package:posterr_flutter/src/domain/repositories/post_repository.dart';
 abstract class CreateRepost {
   Future<Either<Failure, PostEntity>> call({
     required PostEntity post,
-    required String newAuthor,
+    required UserEntity newAuthor,
   });
 }
 
@@ -18,7 +18,7 @@ class CreateRepostImpl implements CreateRepost {
   @override
   Future<Either<Failure, PostEntity>> call({
     required PostEntity post,
-    required String newAuthor,
+    required UserEntity newAuthor,
   }) async {
     final quotedPost = post.copy(
       type: PostType.repost,

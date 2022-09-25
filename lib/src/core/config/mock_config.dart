@@ -9,9 +9,15 @@ import '../factories/data_sources/data_sources.dart';
 
 class MockConfig {
   static Future<void> insertDefaultData() async {
-    final userSession = GetIt.I.get<UserSessionService>();
+    final userDS = makeLocalUserDataSource();
+    final postDS = makeLocalPostDataSource();
+
+    // Setup active user
     const activeUsername = 'John Doe';
-    userSession.setActiveUser(activeUsername);
+    final userSession = GetIt.I.get<UserSessionService>();
+    final activeUser = await userDS.save( UserEntity(username: activeUsername, createdAt: DateTime.now()));
+
+    await userSession.setActiveUser(activeUsername);
 
     // Check if is first launch
     final prefs = await SharedPreferences.getInstance();
@@ -21,12 +27,7 @@ class MockConfig {
       return;
     }
 
-    final userDS = makeLocalUserDataSource();
-    final postDS = makeLocalPostDataSource();
-
     // Create users
-    userDS.save(
-        UserEntity(username: 'Felipe Rodrigues', createdAt: DateTime.now()));
     userDS.save(UserEntity(
         username: 'Davi Dias',
         createdAt: DateTime.now().subtract(const Duration(days: 20),),),);
@@ -41,7 +42,7 @@ class MockConfig {
     postDS.save(
       PostEntity(
         createdAt: DateTime.now(),
-        author: activeUsername,
+        author: activeUser.toEntity(),
         type: PostType.normal,
         text: 'Hello world! This is my first post on Posterr and this is amazing!'
       ),

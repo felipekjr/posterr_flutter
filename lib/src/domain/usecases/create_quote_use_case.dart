@@ -7,7 +7,7 @@ abstract class CreateQuote {
   Future<Either<Failure, PostEntity>> call({
     required PostEntity post,
     required String text,
-    required String quoteAuthor,
+    required UserEntity quoteAuthor,
   });
 }
 
@@ -20,7 +20,7 @@ class CreateQuoteImpl implements CreateQuote {
   Future<Either<Failure, PostEntity>> call({
     required PostEntity post,
     required String text,
-    required String quoteAuthor,
+    required UserEntity quoteAuthor,
   }) async {
     final quotedPost = post.copy(
       type: PostType.quote,

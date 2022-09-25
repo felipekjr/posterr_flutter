@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:posterr_flutter/src/external/external.dart';
 
 import '../../../data/models/models.dart';
 import '../../../domain/entities/post_entity.dart';
@@ -13,9 +14,8 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   @HiveField(0)
   final String? id;
 
-  @override
   @HiveField(1)
-  final String authorId;
+  final LocalUserModel author;
 
   @override
   @HiveField(2)
@@ -31,7 +31,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   final String? childId;
 
   LocalPostModel({
-    required this.authorId,
+    required this.author,
     required this.creationDate,
     required this.type,
     this.text,
@@ -41,17 +41,15 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
 
   LocalPostModel copy({
     String? id,
-    String? authorId,
-    DateTime? creationDate,
     String? type,
   }) {
     return LocalPostModel(
       id: id ?? this.id,
-      authorId: authorId ?? this.authorId,
-      creationDate: creationDate ?? this.creationDate,
       type: type ?? this.type,
+      author: author,
+      creationDate: creationDate,
       text: text,
-      childId: childId
+      childId: childId,
     );
   }
 
@@ -60,7 +58,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
     return PostEntity(
       id: id,
       createdAt: creationDate,
-      author: authorId,
+      author: author.toEntity(),
       type: _getType(type),
       text: text,
       childId: childId
@@ -69,7 +67,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
 
   factory LocalPostModel.fromEntity(PostEntity e) {
     return LocalPostModel(
-      authorId: e.author,
+      author: LocalUserModel.fromEntity(e.author),
       creationDate: e.createdAt,
       type: _getTypeString(e.type),
       text: e.text,
@@ -86,5 +84,5 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   }
 
   @override
-  List<Object?> get props => [authorId, id, text, childId, type, creationDate];
+  List<Object?> get props => [author, id, text, childId, type, creationDate];
 }

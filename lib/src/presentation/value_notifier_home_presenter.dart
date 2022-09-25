@@ -13,6 +13,8 @@ class ValueNotifierHomePresenter implements HomePresenter {
   final CreateQuote createQuote;
   final CreateRepost createRepost;
   final GetPosts getPosts;
+  
+  @override
   final UserSessionService userSessionService;
 
   ValueNotifierHomePresenter({
@@ -45,9 +47,7 @@ class ValueNotifierHomePresenter implements HomePresenter {
   }) async {
     try {
       state.value = const UILoadingState();
-      final author = userSessionService.activeUsername!;
-
-      
+      final author = userSessionService.activeUser!;
 
       final res = await _makePost(postType, postEntity, author, quote: quote);
 
@@ -79,7 +79,7 @@ class ValueNotifierHomePresenter implements HomePresenter {
   Future<Either<Failure, PostEntity>> _makePost(
     PostType type,
     PostEntity entity,
-    String loggedUser, {
+    UserEntity loggedUser, {
     String? quote,
   }) {
     final newPost = entity.copy(author: loggedUser);
@@ -103,4 +103,5 @@ class ValueNotifierHomePresenter implements HomePresenter {
     state.dispose();
     postsNotifier.dispose();
   }
+
 }

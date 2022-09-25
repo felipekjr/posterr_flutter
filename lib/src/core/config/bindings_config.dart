@@ -25,6 +25,6 @@ class BindingsConfig {
     g.registerLazySingleton<ProfilePresenter>(() => makeProfilePresenter());
 
     // User session
-    g.registerLazySingleton<UserSessionService>(() => UserSessionService());
+    g.registerLazySingleton<UserSessionService>(() => UserSessionService(GetIt.I.get<GetUser>()));
   }
 }

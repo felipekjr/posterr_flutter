@@ -13,7 +13,9 @@ class LocalUserDataSource implements UserDataSource<LocalUserModel> {
   Future<LocalUserModel> save(UserEntity user) async {
     final userModel = LocalUserModel.fromEntity(user);
     final id = await box.add(userModel);
-    return userModel.copy(id: id.toString());
+    final userWithId = userModel.copy(id: id.toString());
+    await box.put(id, userWithId);
+    return userWithId;
   }
 
   @override
@@ -22,7 +24,7 @@ class LocalUserDataSource implements UserDataSource<LocalUserModel> {
   }
 
   @override
-  Future<LocalUserModel> getByName(String name) async {
-    return box.values.firstWhere((e) => e.username == name);
+  Future<LocalUserModel> getByName(String username) async {
+    return box.values.firstWhere((e) => e.username == username);
   }
 }

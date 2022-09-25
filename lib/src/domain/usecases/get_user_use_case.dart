@@ -16,7 +16,7 @@ class GetUserImpl implements GetUser {
   });
   
   @override
-  Future<Either<Failure, UserEntity>> call(String name) async {
-    return repository.getUser(username: name);
+  Future<Either<Failure, UserEntity>> call(String username) async {
+    return repository.getUser(username: username);
   }
 }
