@@ -20,11 +20,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ProfilePresenter presenter = GetIt.I.get<ProfilePresenter>();
-  final postsTypeCount = {
-    PostType.normal: 2,
-    PostType.quote: 3,
-    PostType.repost: 4
-  };
 
   @override
   void initState() {
@@ -112,16 +107,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: Spacing.x1,
                     ),
-                    Wrap(
-                      spacing: Spacing.x1,
-                      children: postsTypeCount.entries
-                          .map(
-                            (e) => LabelValueChip(
-                              labelText: e.key.label,
-                              value: e.value.toString(),
-                            ),
-                          )
-                          .toList(),
+                    ValueListenableBuilder<Map<PostType, int>>(
+                      valueListenable: presenter.userPostsCount,
+                      builder: (context, postsPerType, _) {
+                        return Wrap(
+                          spacing: Spacing.x1,
+                          children: postsPerType.entries
+                              .map(
+                                (e) => LabelValueChip(
+                                  labelText: e.key.label,
+                                  value: e.value.toString(),
+                                ),
+                              )
+                              .toList(),
+                        );
+                      }
                     )
                   ],
                 )

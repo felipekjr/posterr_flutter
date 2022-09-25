@@ -30,24 +30,19 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   late ValueNotifier<UserEntity> loggedUserNotifier;
 
   @override
+  late ValueNotifier<Map<PostType, int>> userPostsCount;
+
+  @override
   void onInit() {
     state = ValueNotifier(const UIInitialState());
     postsNotifier = ValueNotifier([]);
+    userPostsCount = ValueNotifier({
+      PostType.normal: 0,
+      PostType.repost: 0,
+      PostType.quote: 0
+    });
     loggedUserNotifier = ValueNotifier(userSessionService.activeUser!);
   }
-
-  // @override
-  // Future<void> getLoggedUser() async {
-  //   state.value = const UILoadingState();
-  //   final res = await getUser(userSessionService.activeUsername!);
-  //   res.fold(
-  //     (failure) => _setStatus(UIErrorState(failure.message)),
-  //     (data) {
-  //       loggedUserNotifier.value = data;
-  //       _setStatus(const UIInitialState());
-  //     },
-  //   );
-  // }
 
   @override
   Future<void> getPosts() async {
@@ -56,7 +51,7 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
     res.fold(
       (failure) => _setStatus(UIErrorState(failure.message)),
       (data) {
-        postsNotifier.value = data;
+        _setPosts(data);
         _setStatus(const UIInitialState());
       },
     );
@@ -79,7 +74,7 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
       res.fold(
         (failure) => _setStatus(UIErrorState(failure.message)),
         (data) {
-          postsNotifier.value = [data, ...postsNotifier.value];
+          _setPosts([data, ...postsNotifier.value]);
           _setStatus(const UISuccessState('Your post was sent.'));
         },
       );
@@ -88,6 +83,18 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
         const UIErrorState('Unexpected error while creating new post'),
       );
     }
+  }
+
+  void _setPosts(List<PostEntity> posts) {
+    postsNotifier.value = posts;
+    setUserPostsCount(PostType.normal, posts);
+    setUserPostsCount(PostType.quote, posts);
+    setUserPostsCount(PostType.repost, posts);
+    userPostsCount.notifyListeners();
+  }
+
+  void setUserPostsCount(PostType type, List<PostEntity> posts) {
+    userPostsCount.value.update(type, (i) => posts.where((e) => e.type == type).length);
   }
 
   @override

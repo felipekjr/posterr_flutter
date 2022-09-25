@@ -28,7 +28,7 @@ class MockConfig {
     }
 
     // Create users
-    userDS.save(UserEntity(
+    final otherUser = await userDS.save(UserEntity(
         username: 'Davi Dias',
         createdAt: DateTime.now().subtract(const Duration(days: 20),),),);
     userDS.save(UserEntity(
@@ -42,9 +42,17 @@ class MockConfig {
     postDS.save(
       PostEntity(
         createdAt: DateTime.now(),
-        author: activeUser.toEntity(),
+        author: otherUser.toEntity(),
         type: PostType.normal,
         text: 'Hello world! This is my first post on Posterr and this is amazing!'
+      ),
+    );
+    postDS.save(
+      PostEntity(
+        createdAt: DateTime.now().subtract(const Duration(days: 3)),
+        author: otherUser.toEntity(),
+        type: PostType.normal,
+        text: 'Have a nice day'
       ),
     );
   }
