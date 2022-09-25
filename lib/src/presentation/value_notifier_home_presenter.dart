@@ -76,6 +76,12 @@ class ValueNotifierHomePresenter implements HomePresenter {
     );
   }
 
+  @override
+  Future<PostEntity> getTappedPost(String postId) async {
+    state.value = const UILoadingState();
+    return posts.firstWhere((e) => e.id == postId);
+  }
+
   Future<Either<Failure, PostEntity>> _makePost(
     PostType type,
     PostEntity entity,

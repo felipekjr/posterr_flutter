@@ -41,6 +41,16 @@ class PostRepositoryImpl implements PostRepository {
       return const Left(UnexpectedFailure('Error while loading posts'));
     }
   }
+  
+  @override
+  Future<Either<Failure, PostEntity>> getById({required String id}) async {
+    try {
+      final res = await localDataSource.getById(id);
+      return Right(res.toEntity());
+    } catch (e) {
+      return const Left(UnexpectedFailure('Error while getting the post'));
+    }
+  }
 
   List<PostModel> _sort(List<PostModel> posts) {
     posts.sort((a, b) => a.creationDate.isBefore(b.creationDate) ? 1 : 0);

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class PostHeader extends StatelessWidget {
   const PostHeader({
     Key? key,
     required this.author,
     required this.date,
+    this.smallVersion = false
   }) : super(key: key);
 
   final String author;
   final String date;
+  final bool smallVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,14 @@ class PostHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CircleAvatar(
-              backgroundColor: AppColors.white,
-              backgroundImage:  NetworkImage(
-                'https://api.lorem.space/image/face?w=200&h=200&hash=$author'
+            SizedBox(
+              height: smallVersion ? 20 : 40,
+              width: smallVersion ? 20 : 40,
+              child: CircleAvatar(
+                backgroundColor: AppColors.white,
+                backgroundImage:  NetworkImage(
+                  'https://api.lorem.space/image/face?w=200&h=200&hash=$author'
+                ),
               ),
             ),
             const SizedBox(
@@ -31,7 +37,7 @@ class PostHeader extends StatelessWidget {
             ),
             Text(
               author,
-              style: TextStyles.normalBold(),
+              style: smallVersion ? TextStyles.smallBold() : TextStyles.normalBold(),
             ),
           ],
         ),

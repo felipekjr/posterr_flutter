@@ -27,4 +27,9 @@ class LocalPostDataSource implements PostDataSource<LocalPostModel> {
     await box.put(id, postWithId);
     return postWithId;
   }
+  
+  @override
+  Future<LocalPostModel> getById(String id) async {
+    return box.values.firstWhere((e) => e.id == id);
+  }
 }

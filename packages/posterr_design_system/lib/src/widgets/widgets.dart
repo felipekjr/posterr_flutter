@@ -7,5 +7,5 @@ export './custom_spinner.dart';
 export './dialogs/error_dialog.dart';
 export './label_value_chip.dart';
 export './logo.dart';
-export './post_cards/simple_post_card.dart';
+export './post_cards/post_cards.dart';
 export './quote_input.dart';

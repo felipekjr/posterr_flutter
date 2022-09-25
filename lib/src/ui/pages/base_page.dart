@@ -40,24 +40,27 @@ class _BasePageState extends State<BasePage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<UIState>(
-      valueListenable: widget.stateNotifier,
-      builder: (context, state, _) {
-        return Scaffold(
-          appBar: widget.customAppBar ??
-              CustomAppBar(
-                title: widget.title ?? '',
-              ),
-          floatingActionButton: CustomFloatActionButton(
+        valueListenable: widget.stateNotifier,
+        builder: (context, state, _) {
+          return Scaffold(
+            appBar: widget.customAppBar ??
+                CustomAppBar(
+                  title: Text(
+                    widget.title ?? '',
+                    style: TextStyles.normalBold(),
+                  ),
+                ),
+            floatingActionButton: CustomFloatActionButton(
               icon: Icons.add_outlined,
               onTap: () {
                 showPostModal(
                   context,
                   onSave: widget.onSaveCreatePostModal,
                 );
-              },),
-          body: widget.child,
-        );
-      }
-    );
+              },
+            ),
+            body: widget.child,
+          );
+        });
   }
 }

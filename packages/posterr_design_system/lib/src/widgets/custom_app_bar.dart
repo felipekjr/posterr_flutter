@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:posterr_design_system/posterr_design_system.dart';
 
 import '../theme/theme.dart';
 
@@ -7,7 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? height;
   final bool hideLeading;
   final TabBar? tabBar;
-  final String title;
+  final Widget title;
   final Color? color;
 
   const CustomAppBar(
@@ -41,13 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 2,
       backgroundColor: color ?? AppColors.white,
       iconTheme: Theme.of(context).iconTheme,
-      title: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: TextStyles.normalBold(),
-        ),
-      ),
+      title: title
     );
   }
 }

@@ -18,7 +18,7 @@ class ErrorDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0)
       ),
       child: Container(
-        constraints: const BoxConstraints(maxHeight: 200, minHeight: 200),
+        constraints: const BoxConstraints(maxHeight: 170, minHeight: 170),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
             Spacing.x2,

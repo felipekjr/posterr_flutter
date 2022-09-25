@@ -9,6 +9,7 @@ abstract class HomePresenter extends BasePresenter {
   UserSessionService get userSessionService;
   late final ValueNotifier<List<PostEntity>> postsNotifier;
 
+  Future<PostEntity> getTappedPost(String postId);
   Future<void> getAllPosts();
   Future<void> makeNewPost(
     PostEntity postEntity, {

@@ -42,7 +42,13 @@ class _HomePageState extends State<HomePage> {
         valueListenable: presenter.postsNotifier,
         builder: (context, posts, _) {
           return posts.isNotEmpty
-              ? Feed(posts: posts)
+              ? Feed(
+                  posts: posts,
+                  onRepostTap: (String postId) async {
+                    final tappedPost = await presenter.getTappedPost(postId);
+                    presenter.makeNewPost(tappedPost, postType: PostType.repost);
+                  },
+                )
               : const Center(child: Text('Empty feed'));
         },
       ),
@@ -62,7 +68,7 @@ class _HomePageState extends State<HomePage> {
 
   CustomAppBar _homeAppBar() {
     return CustomAppBar(
-      title: 'posterr',
+      title: const Logo(),
       hideLeading: true,
       action: Padding(
         padding: const EdgeInsets.only(right: Spacing.x1),

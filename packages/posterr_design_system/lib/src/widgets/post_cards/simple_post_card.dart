@@ -1,70 +1,54 @@
 import 'package:flutter/material.dart';
 
+import './view_models/simple_post_card_view_model.dart';
 import '../../theme/theme.dart';
-import '../buttons/custon_icon_button.dart';
-import 'post_header.dart';
+import 'molecules/post_footer.dart';
+import 'molecules/post_header.dart';
 
 class SimplePostCard extends StatelessWidget {
-  final String date;
-  final String text;
-  final String author;
-  final bool showFooter;
+  final SimplePostCardViewModel viewModel;
+  final Function(String id) onQuoteTap;
+  final Function(String id) onRepostTap;
+  final bool isChild;
+
   const SimplePostCard({
     Key? key,
-    required this.date,
-    required this.text,
-    required this.author,
-    this.showFooter = true
+    required this.viewModel,
+    required this.onQuoteTap,
+    required this.onRepostTap,
+    this.isChild = false
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.all(Spacing.x2),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
+    return Container(
+      padding: const EdgeInsets.all(Spacing.x2),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(5),
+        ),
+        border: isChild ? Border.all(color: AppColors.grey, width: 1) : null
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PostHeader(author: viewModel.author, date: viewModel.date, smallVersion: isChild,),
+          const SizedBox(height: Spacing.x1),
+          Text(
+            viewModel.text,
+            style: TextStyles.normal(color: Colors.black),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PostHeader(author: author, date: date),
-            const SizedBox(height: Spacing.x1),
-            Text(
-              text,
-              style: TextStyles.normal(color: Colors.black),
+          const SizedBox(height: Spacing.x1),
+          Visibility(
+            visible: viewModel.showFooter,
+            child: PostFooter(
+              postId: viewModel.postId,
+              onQuoteTap: onQuoteTap,
+              onRepostTap: onRepostTap,
             ),
-            const SizedBox(height: Spacing.x1),
-            Visibility(
-              visible: showFooter,
-              child: _footer()
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
-
-  Row _footer() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        CustomIconButton(
-          onTap: () {},
-          icon: Icons.mode_comment_outlined,
-        ),
-        const SizedBox(
-          width: Spacing.x2,
-        ),
-        CustomIconButton(
-          onTap: () {},
-          icon: Icons.share_outlined,
-        ),
-      ],
-    );
-  }
 }
-
-

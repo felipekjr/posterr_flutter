@@ -76,10 +76,14 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   }
 
   static PostType _getType(String t) {
+    if (t == 'Q') return PostType.quote;
+    if (t == 'R') return PostType.repost;
     return PostType.normal;
   }
 
   static String _getTypeString(PostType t) {
+    if (t == PostType.quote) return 'Q';
+    if (t == PostType.repost) return 'R';
     return 'N';
   }
 
