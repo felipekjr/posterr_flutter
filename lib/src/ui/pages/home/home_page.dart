@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   CustomAppBar _homeAppBar() {
     return CustomAppBar(
-      title: 'Posterr',
+      title: 'posterr',
       hideLeading: true,
       action: Padding(
         padding: const EdgeInsets.only(right: Spacing.x1),
