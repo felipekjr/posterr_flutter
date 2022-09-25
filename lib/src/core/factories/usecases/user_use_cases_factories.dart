@@ -9,3 +9,7 @@ GetUsers makeGetUsers() => GetUsersImpl(
 GetUser makeGetUser() => GetUserImpl(
   repository: makeUserRepository()
 );
+
+UserCanPost makeUserCanPost() => UserCanPostImpl(
+  repository: makePostRepository()
+);

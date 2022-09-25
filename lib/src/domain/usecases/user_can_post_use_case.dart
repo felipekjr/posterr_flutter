@@ -1,22 +1,23 @@
-// import 'package:dartz/dartz.dart';
+import '../../core/extensions/extensions.dart';
+import '../repositories/repositories.dart';
 
-// import '../entities/entities.dart';
-// import '../helpers/helpers.dart';
-// import '../repositories/repositories.dart';
+abstract class UserCanPost {
+  Future<bool> call({required String userId});
+}
 
-// abstract class UserCanPost {
-//   Future<Either<Failure, bool>> call(String username);
-// }
+class UserCanPostImpl implements UserCanPost {
+  final PostRepository repository;
 
-// class UserCanPostImpl implements UserCanPost {
-//   final PostRepository repository;
+  UserCanPostImpl({
+    required this.repository,
+  });
 
-//   UserCanPostImpl({
-//     required this.repository,
-//   });
-  
-//   @override
-//   Future<Either<Failure, bool>> call({required String userid}) async {
-//     final userPosts = await repository.getByUser(id: id);
-//   }
-// }
+  @override
+  Future<bool> call({required String userId}) async {
+    final userPosts = await repository.getByUser(id: userId);
+    final dailyPosts = userPosts
+        .right()
+        .where((e) => e.createdAt.difference(DateTime.now()).inDays == 0);
+    return dailyPosts.length < 5;
+  }
+}

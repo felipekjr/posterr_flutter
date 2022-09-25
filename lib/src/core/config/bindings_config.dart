@@ -12,6 +12,7 @@ class BindingsConfig {
     final GetIt g = GetIt.instance;
     
     // Use cases
+    g.registerLazySingleton<UserCanPost>(() => makeUserCanPost());
     g.registerLazySingleton<GetPosts>(() => makeGetAllPosts());
     g.registerLazySingleton<GetUserPosts>(() => makeGetUserPosts());
     g.registerLazySingleton<CreatePost>(() => makeCreatePost());
@@ -19,6 +20,7 @@ class BindingsConfig {
     g.registerLazySingleton<CreateRepost>(() => makeCreateRepost());
     g.registerLazySingleton<GetUsers>(() => makeGetUsers());
     g.registerLazySingleton<GetUser>(() => makeGetUser());
+
 
     // Presenters
     g.registerLazySingleton<HomePresenter>(() => makeHomePresenter());

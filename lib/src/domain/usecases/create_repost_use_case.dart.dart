@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:posterr_flutter/src/domain/entities/entities.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
-import 'package:posterr_flutter/src/domain/repositories/post_repository.dart';
+
+import '../entities/entities.dart';
+import '../helpers/helpers.dart';
+import '../repositories/post_repository.dart';
+import 'user_can_post_use_case.dart';
 
 abstract class CreateRepost {
   Future<Either<Failure, PostEntity>> call({
@@ -12,20 +14,25 @@ abstract class CreateRepost {
 
 class CreateRepostImpl implements CreateRepost {
   final PostRepository repository;
+  final UserCanPost userCanPost;
 
-  CreateRepostImpl({required this.repository});
+  CreateRepostImpl({required this.repository, required this.userCanPost,});
 
   @override
   Future<Either<Failure, PostEntity>> call({
     required PostEntity post,
     required UserEntity newAuthor,
   }) async {
-    final quotedPost = post.copy(
-      type: PostType.repost,
-      author: newAuthor,
-      childId: post.id,
-      newPost: true,
-    );
-    return repository.create(post: quotedPost);
+    if (await userCanPost(userId: newAuthor.id!)) {
+      final quotedPost = post.copy(
+        type: PostType.repost,
+        author: newAuthor,
+        childId: post.id,
+        newPost: true,
+      );
+      return repository.create(post: quotedPost);
+    } else {
+      return const Left(ValidationFailure('You have reached the daily post limit'));
+    }
   }
 }

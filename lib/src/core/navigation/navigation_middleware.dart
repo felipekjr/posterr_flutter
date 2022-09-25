@@ -11,10 +11,10 @@ class NavigatorMiddleware extends RouteObserver<PageRoute> {
   }
 
   @override
-  void didPop(Route route, Route? previousRoute) {
+  void didPop(Route route, Route? goingRoute) {
     debugPrint(
-      'LOG: ${previousRoute?.settings.name} => ${route.settings.name}',
+      'LOG: ${route.settings.name} => ${goingRoute?.settings.name}',
     );
-    super.didPop(route, previousRoute);
+    super.didPop(route, goingRoute);
   }
 }

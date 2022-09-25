@@ -34,7 +34,7 @@ class Feed extends StatelessWidget {
           author: post.author.username,
           date: post.createdAt.humanized(),
           text: post.text ?? '',
-          showFooter: showActions && userSession.activeUsername != post.author
+          showFooter: showActions && userSession.activeUser?.id != post.author.id
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
