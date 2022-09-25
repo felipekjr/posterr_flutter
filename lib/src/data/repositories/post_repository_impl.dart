@@ -26,7 +26,7 @@ class PostRepositoryImpl implements PostRepository {
   Future<Either<Failure, List<PostEntity>>> getAll() async {
     try {
       final res = await localDataSource.getAll();
-      return Right(res.map((e) => e.toEntity()).toList());
+      return Right(_sort(res).map((e) => e.toEntity()).toList());
     } catch (e) {
       return const Left(UnexpectedFailure('Error while loading posts'));
     }
@@ -36,9 +36,14 @@ class PostRepositoryImpl implements PostRepository {
   Future<Either<Failure, List<PostEntity>>> getByUser({required String id}) async {
     try {
       final res = await localDataSource.getByAuthorId(id);
-      return Right(res.map((e) => e.toEntity()).toList());
+      return Right(_sort(res).map((e) => e.toEntity()).toList());
     } catch (e) {
       return const Left(UnexpectedFailure('Error while loading posts'));
     }
+  }
+
+  List<PostModel> _sort(List<PostModel> posts) {
+    posts.sort((a, b) => a.creationDate.isBefore(b.creationDate) ? 1 : 0);
+    return posts;
   }
 }

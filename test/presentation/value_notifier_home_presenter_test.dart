@@ -6,7 +6,6 @@ import 'package:posterr_flutter/src/presentation/helpers/helpers.dart';
 import 'package:posterr_flutter/src/presentation/presentation.dart';
 
 import '../mocks/mocks.dart';
-import '../mocks/usecases/get_active_user_mock.dart';
 
 void main() {
   late ValueNotifierHomePresenter sut;
@@ -17,7 +16,7 @@ void main() {
   late CreateQuoteMock createQuoteMock;
   late CreateRepostMock createRepostMock;
   late GetPostsMock getPostsMock;
-  late GetActiveUserMock getActiveUserMock;
+  late UserSessionServiceMock userSessionServiceMock;
 
   setUpAll(() {
     registerFallbackValue(FakePostFactory.makeFakePost());
@@ -28,14 +27,14 @@ void main() {
     createQuoteMock = CreateQuoteMock();
     createRepostMock = CreateRepostMock();
     getPostsMock = GetPostsMock();
-    getActiveUserMock = GetActiveUserMock();
+    userSessionServiceMock = UserSessionServiceMock();
 
     sut = ValueNotifierHomePresenter(
       createPost: createPostMock,
       createQuote: createQuoteMock,
       createRepost: createRepostMock,
       getPosts: getPostsMock,
-      getActiveUser: getActiveUserMock,
+      userSessionService: userSessionServiceMock,
     );
     sut.onInit();
     sut.state.addListener(() {
@@ -49,8 +48,9 @@ void main() {
     test('Should call createPost use case when type is normal on makeNewPost',
         () async {
       final fakeUser = FakeUserFactory.makeFakeUser();
-      getActiveUserMock.mockSuccess(fakeUser);
-      var postEntity = FakePostFactory.makeFakePost();
+      final postEntity = FakePostFactory.makeFakePost();
+      userSessionServiceMock.mockUsername(fakeUser.username);
+
       await sut.makeNewPost(postEntity, postType: PostType.normal);
       verify(
         () => createPostMock.call(
@@ -64,9 +64,11 @@ void main() {
     test('Should call createRepost use case when type is repost on makeNewPost',
         () async {
       final fakeUser = FakeUserFactory.makeFakeUser();
-      getActiveUserMock.mockSuccess(fakeUser);
-      var postEntity = FakePostFactory.makeFakePost();
+      final postEntity = FakePostFactory.makeFakePost();
+      userSessionServiceMock.mockUsername(fakeUser.username);
+
       await sut.makeNewPost(postEntity, postType: PostType.repost);
+
       verify(
         () => createRepostMock.call(
           post: postEntity.copy(
@@ -80,14 +82,16 @@ void main() {
     test('Should call createQuote use case when type is quote on makeNewPost',
         () async {
       final fakeUser = FakeUserFactory.makeFakeUser();
-      getActiveUserMock.mockSuccess(fakeUser);
-      var postEntity = FakePostFactory.makeFakePost();
+      final postEntity = FakePostFactory.makeFakePost();
       final fakeQuote = faker.lorem.sentence();
+      userSessionServiceMock.mockUsername(fakeUser.username);
+
       await sut.makeNewPost(
         postEntity,
         postType: PostType.quote,
         quote: fakeQuote,
       );
+
       verify(
         () => createQuoteMock.call(
           post: postEntity.copy(author: fakeUser.username),

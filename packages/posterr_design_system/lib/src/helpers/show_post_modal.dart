@@ -17,6 +17,7 @@ showPostModal(BuildContext context, {required Function(String) onSave}) {
 
 class PostModalBody extends StatefulWidget {
   final Function(String) onSave;
+
   const PostModalBody({
     Key? key,
     required this.onSave,
@@ -57,7 +58,11 @@ class _PostModalBodyState extends State<PostModalBody> {
           ),
           PrimaryButton(
             title: 'Post',
-            onTap: () => widget.onSave(quote),
+            onTap: () {
+              widget.onSave(quote);
+              Navigator.pop(context);
+            },
+            disabled: quote.isEmpty,
           ),
         ],
       ),

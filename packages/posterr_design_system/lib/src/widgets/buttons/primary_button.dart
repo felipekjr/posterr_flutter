@@ -22,7 +22,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: disabled ? .4 : 1,
+      opacity: disabled ? .9 : 1,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.black,

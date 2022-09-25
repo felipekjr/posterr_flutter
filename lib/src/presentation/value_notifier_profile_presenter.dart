@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:posterr_flutter/src/core/services/services.dart';
 import 'package:posterr_flutter/src/domain/entities/post_entity.dart';
 import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
+import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 import 'package:posterr_flutter/src/domain/usecases/usecases.dart';
 import 'package:posterr_flutter/src/presentation/helpers/ui_state.dart';
 import 'package:posterr_flutter/src/ui/pages/pages.dart';
@@ -10,11 +11,13 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   final GetUserPosts getUserPosts;
   final UserSessionService userSessionService;
   final GetUser getUser;
+  final CreatePost createPost;
 
   ValueNotifierProfilePresenter({
     required this.getUserPosts,
     required this.userSessionService,
     required this.getUser,
+    required this.createPost,
   });
 
   @override
@@ -49,7 +52,8 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   @override
   Future<void> getPosts() async {
     state.value = const UILoadingState();
-    final loggedUserId = loggedUserNotifier.value?.username ?? userSessionService.activeUsername!;
+    final loggedUserId = loggedUserNotifier.value?.username ??
+        userSessionService.activeUsername!;
     final res = await getUserPosts(userId: loggedUserId);
     res.fold(
       (failure) => _setStatus(UIErrorState(failure.message)),
@@ -61,9 +65,31 @@ class ValueNotifierProfilePresenter implements ProfilePresenter {
   }
 
   @override
-  Future<void> makeSimplePost({required PostEntity text}) {
-    // TODO: implement makeSimplePost
-    throw UnimplementedError();
+  Future<void> makeSimplePost({required String text}) async {
+    try {
+      state.value = const UILoadingState();
+      final author = userSessionService.activeUsername!;
+      final post = PostEntity(
+        createdAt: DateTime.now(),
+        author: author,
+        type: PostType.normal,
+        text: text,
+      );
+
+      final res = await createPost(post);
+
+      res.fold(
+        (failure) => _setStatus(UIErrorState(failure.message)),
+        (data) {
+          postsNotifier.value = [data, ...postsNotifier.value];
+          _setStatus(const UISuccessState('Your post was sent.'));
+        },
+      );
+    } catch (_) {
+      _setStatus(
+        const UIErrorState('Unexpected error while creating new post'),
+      );
+    }
   }
 
   @override

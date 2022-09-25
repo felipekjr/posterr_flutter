@@ -50,6 +50,8 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       authorId: authorId ?? this.authorId,
       creationDate: creationDate ?? this.creationDate,
       type: type ?? this.type,
+      text: text,
+      childId: childId
     );
   }
 
@@ -60,6 +62,8 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       createdAt: creationDate,
       author: authorId,
       type: _getType(type),
+      text: text,
+      childId: childId
     );
   }
 
@@ -68,7 +72,8 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       authorId: e.author,
       creationDate: e.createdAt,
       type: _getTypeString(e.type),
-      text: e.text
+      text: e.text,
+      childId: e.childId
     );
   }
 
@@ -81,5 +86,5 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   }
 
   @override
-  List<Object?> get props => [authorId, id];
+  List<Object?> get props => [authorId, id, text, childId, type, creationDate];
 }

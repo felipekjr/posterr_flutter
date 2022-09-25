@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String message;
@@ -29,12 +29,13 @@ class ErrorDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Atenção!', style: TextStyles.normal()),
+              Text('Error', style: TextStyles.medium()),
               Text(message, style: TextStyles.normalThin(), textAlign: TextAlign.center),
+              const Divider(),
               TextButton(
                 onPressed: () => Navigator.pop(context), 
                 child: Text(
-                  'Cancelar', 
+                  'Ok', 
                   style: TextStyles.normalBold(color: AppColors.black),
                 ),
               )

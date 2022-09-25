@@ -9,6 +9,7 @@ ProfilePresenter makeProfilePresenter() {
   return ValueNotifierProfilePresenter(
     getUserPosts: GetIt.I.get<GetUserPosts>(), 
     userSessionService: GetIt.I.get<UserSessionService>(),
-    getUser: GetIt.I.get<GetUser>()
+    getUser: GetIt.I.get<GetUser>(),
+    createPost: GetIt.I.get<CreatePost>(),
   );
 }

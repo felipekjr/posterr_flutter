@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../../../data/data.dart';
-import '../../../domain/entities/post_entity.dart';
+import '../../../domain/entities/entities.dart';
 import '../../../external/external.dart';
 
 class LocalPostDataSource implements PostDataSource<LocalPostModel> {

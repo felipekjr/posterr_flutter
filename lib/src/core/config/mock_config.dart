@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:posterr_flutter/src/core/consts/consts.dart';
 import 'package:posterr_flutter/src/core/services/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/entities/entities.dart';
 import '../../domain/helpers/helpers.dart';
@@ -7,12 +9,20 @@ import '../factories/data_sources/data_sources.dart';
 
 class MockConfig {
   static Future<void> insertDefaultData() async {
-    final userDS = makeLocalUserDataSource();
-    final postDS = makeLocalPostDataSource();
-
     final userSession = GetIt.I.get<UserSessionService>();
     const activeUsername = 'John Doe';
     userSession.setActiveUser(activeUsername);
+
+    // Check if is first launch
+    final prefs = await SharedPreferences.getInstance();
+    if (!(prefs.getBool(Consts.firstTime) ?? false)) {
+      prefs.setBool(Consts.firstTime, true);
+    } else {
+      return;
+    }
+
+    final userDS = makeLocalUserDataSource();
+    final postDS = makeLocalPostDataSource();
 
     // Create users
     userDS.save(
@@ -33,7 +43,7 @@ class MockConfig {
         createdAt: DateTime.now(),
         author: activeUsername,
         type: PostType.normal,
-        text: 'My first post'
+        text: 'Hello world! This is my first post on Posterr and this is amazing!'
       ),
     );
   }

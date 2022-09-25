@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:posterr_flutter/src/core/services/services.dart';
 
-import '../core/extensions/extensions.dart';
 import '../domain/entities/entities.dart';
 import '../domain/helpers/helpers.dart';
 import '../domain/usecases/usecases.dart';
@@ -48,11 +47,14 @@ class ValueNotifierHomePresenter implements HomePresenter {
       state.value = const UILoadingState();
       final author = userSessionService.activeUsername!;
 
+      
+
       final res = await _makePost(postType, postEntity, author, quote: quote);
 
       res.fold(
         (failure) => _setStatus(UIErrorState(failure.message)),
         (data) {
+          postsNotifier.value = [data, ...posts];
           _setStatus(const UISuccessState('Your post was sent.'));
         },
       );

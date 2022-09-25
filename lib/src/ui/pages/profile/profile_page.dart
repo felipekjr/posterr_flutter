@@ -43,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return BasePage(
+      stateNotifier: presenter.state,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +59,10 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      title: 'User profile',
+      title: 'User profile', 
+      onSaveCreatePostModal: (String v) { 
+        presenter.makeSimplePost(text: v);
+      },
     );
   }
 

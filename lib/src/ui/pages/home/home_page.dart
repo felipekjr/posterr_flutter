@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
 
-import '../../../core/extensions/extensions.dart';
 import '../../../core/navigation/navigation_service.dart';
 import '../../../core/routes/route.dart';
 import '../../../domain/entities/entities.dart';
@@ -37,28 +36,45 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BasePage(
-      customAppBar: CustomAppBar(
-        title: 'Posterr',
-        hideLeading: true,
-        action: Padding(
-          padding: const EdgeInsets.only(right: Spacing.x1),
-          child: IconButton(
-            icon: const Icon(Icons.person, size: 24),
-            tooltip: 'Profile',
-            onPressed: () =>
-                NavigationService.instance.navigateTo(NamedRoute.profile),
-          ),
-        ),
-      ),
+      stateNotifier: presenter.state,
+      customAppBar: _homeAppBar(),
       child: ValueListenableBuilder<List<PostEntity>>(
         valueListenable: presenter.postsNotifier,
         builder: (context, posts, _) {
           return posts.isNotEmpty
               ? Feed(posts: posts)
-              : const Center(
-                  child: Text('Empty feed'),
-                );
+              : const Center(child: Text('Empty feed'));
         },
+      ),
+      onSaveCreatePostModal: (String v) {
+        presenter.makeNewPost(
+          PostEntity(
+            createdAt: DateTime.now(),
+            author: '',
+            type: PostType.normal,
+            text: v,
+          ),
+          postType: PostType.normal,
+        );
+      },
+    );
+  }
+
+  CustomAppBar _homeAppBar() {
+    return CustomAppBar(
+      title: 'Posterr',
+      hideLeading: true,
+      action: Padding(
+        padding: const EdgeInsets.only(right: Spacing.x1),
+        child: IconButton(
+          icon: const Icon(Icons.person, size: 24),
+          tooltip: 'Profile',
+          onPressed: () {
+            NavigationService.instance
+                .navigateTo(NamedRoute.profile)
+                .then((value) => presenter.getAllPosts());
+          },
+        ),
       ),
     );
   }
