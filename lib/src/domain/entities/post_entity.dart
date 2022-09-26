@@ -11,13 +11,16 @@ class PostEntity extends Equatable {
   final String? text;
   final String? childId;
 
+  final PostEntity? child;
+
   const PostEntity({
     required this.createdAt,
     required this.author,
     required this.type,
     this.id,
     this.text,
-    this.childId
+    this.childId,
+    this.child
   });
 
   PostEntity copy({
@@ -27,6 +30,7 @@ class PostEntity extends Equatable {
     PostType? type,
     String? text,
     String? childId,
+    PostEntity? child,
     bool newPost = false
   }) => PostEntity(
     id: newPost ? null : id ?? this.id, 
@@ -34,10 +38,11 @@ class PostEntity extends Equatable {
     createdAt: createdAt ?? this.createdAt, 
     type: type ?? this.type,
     text: text ?? this.text,
-    childId: childId ?? this.childId
+    childId: childId ?? this.childId,
+    child: child ?? this.child
   );
 
   @override
-  List<Object?> get props => [id, createdAt, author, type, text, childId];
+  List<Object?> get props => [id, createdAt, author, type, text, childId, child];
 }
 

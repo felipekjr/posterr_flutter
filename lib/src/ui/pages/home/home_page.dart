@@ -33,6 +33,17 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void onRepostTap(String postId) async {
+    final tappedPost = await presenter.getTappedPost(postId);
+    presenter.makeNewPost(tappedPost, postType: PostType.repost);
+  }
+  void onQuoteTap(String postId) async {
+    final tappedPost = await presenter.getTappedPost(postId);
+    showPostModal(context, onSave: (String text) {
+      presenter.makeNewPost(tappedPost, postType: PostType.quote, quote: text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasePage(
@@ -44,10 +55,8 @@ class _HomePageState extends State<HomePage> {
           return posts.isNotEmpty
               ? Feed(
                   posts: posts,
-                  onRepostTap: (String postId) async {
-                    final tappedPost = await presenter.getTappedPost(postId);
-                    presenter.makeNewPost(tappedPost, postType: PostType.repost);
-                  },
+                  onRepostTap: onRepostTap,
+                  onQuoteTap: onQuoteTap,
                 )
               : const Center(child: Text('Empty feed'));
         },

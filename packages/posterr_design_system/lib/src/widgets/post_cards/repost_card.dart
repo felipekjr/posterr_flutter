@@ -8,12 +8,14 @@ class RepostCard extends StatelessWidget {
   final String date;
   final String author;
   final SimplePostCardViewModel childPostInfos;
+  final String? quote;
 
 const RepostCard({
     Key? key,
     required this.date,
     required this.author,
     required this.childPostInfos,
+    this.quote
   }) : super(key: key);
 
   @override
@@ -21,9 +23,15 @@ const RepostCard({
     return Padding(
       padding: const EdgeInsets.all(Spacing.x2),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PostHeader(author: author, date: date,),
-          const SizedBox(height: Spacing.x2,),
+          const SizedBox(height: Spacing.x1),
+          quote != null ? Text(
+            quote!,
+            style: TextStyles.normal(color: Colors.black),
+          ) : const SizedBox(),
+          const SizedBox(height: Spacing.x1,),
           SimplePostCard(
             onQuoteTap: (String v) {},
             onRepostTap: (String v) {}, 

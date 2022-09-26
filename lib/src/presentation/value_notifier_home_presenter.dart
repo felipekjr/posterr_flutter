@@ -88,18 +88,17 @@ class ValueNotifierHomePresenter implements HomePresenter {
     UserEntity loggedUser, {
     String? quote,
   }) {
-    final newPost = entity.copy(author: loggedUser);
     if (type == PostType.quote) {
       return createQuote(
-        post: newPost,
-        quoteAuthor: newPost.author,
+        childPost: entity,
+        quoteAuthor: loggedUser,
         text: quote ?? '',
       );
     }
     if (type == PostType.repost) {
-      return createRepost(post: newPost, newAuthor: newPost.author);
+      return createRepost(childPost: entity, newAuthor: loggedUser);
     }
-    return createPost(newPost);
+    return createPost(entity.copy(author: loggedUser));
   }
 
   void _setStatus(UIState s) => state.value = s;

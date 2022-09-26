@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:posterr_flutter/src/data/models/post_model.dart';
-import 'package:posterr_flutter/src/external/external.dart';
 
 import '../../domain/entities/post_entity.dart';
 import '../../domain/helpers/failure.dart';
@@ -16,6 +15,10 @@ class PostRepositoryImpl implements PostRepository {
   Future<Either<Failure, PostEntity>> create({required PostEntity post}) async {
     try {
       final res = await localDataSource.save(post);
+      if (post.childId != null) {
+        final child = await localDataSource.getById(post.childId!);
+        return Right(res.toEntity().copy(child: child.toEntity()));
+      }
       return Right(res.toEntity());
     } catch (e) {
       return const Left(UnexpectedFailure('Unexpected error while creating the post'));

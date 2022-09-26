@@ -23,13 +23,14 @@ class LocalPostModelAdapter extends TypeAdapter<LocalPostModel> {
       text: fields[4] as String?,
       childId: fields[5] as String?,
       id: fields[0] as String?,
+      child: fields[6] as LocalPostModel?,
     );
   }
 
   @override
   void write(BinaryWriter writer, LocalPostModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class LocalPostModelAdapter extends TypeAdapter<LocalPostModel> {
       ..writeByte(4)
       ..write(obj.text)
       ..writeByte(5)
-      ..write(obj.childId);
+      ..write(obj.childId)
+      ..writeByte(6)
+      ..write(obj.child);
   }
 
   @override

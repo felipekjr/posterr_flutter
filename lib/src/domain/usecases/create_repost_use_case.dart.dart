@@ -7,7 +7,7 @@ import 'user_can_post_use_case.dart';
 
 abstract class CreateRepost {
   Future<Either<Failure, PostEntity>> call({
-    required PostEntity post,
+    required PostEntity childPost,
     required UserEntity newAuthor,
   });
 }
@@ -20,15 +20,17 @@ class CreateRepostImpl implements CreateRepost {
 
   @override
   Future<Either<Failure, PostEntity>> call({
-    required PostEntity post,
+    required PostEntity childPost,
     required UserEntity newAuthor,
   }) async {
     if (await userCanPost(userId: newAuthor.id!)) {
-      final quotedPost = post.copy(
+      final quotedPost = childPost.copy(
+        newPost: true,
         type: PostType.repost,
         author: newAuthor,
-        childId: post.id,
-        newPost: true,
+        childId: childPost.id,
+        child: childPost,
+        createdAt: DateTime.now()
       );
       return repository.create(post: quotedPost);
     } else {

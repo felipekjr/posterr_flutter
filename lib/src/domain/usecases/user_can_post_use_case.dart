@@ -18,6 +18,6 @@ class UserCanPostImpl implements UserCanPost {
     final dailyPosts = userPosts
         .right()
         .where((e) => e.createdAt.difference(DateTime.now()).inDays == 0);
-    return dailyPosts.length < 50;
+    return dailyPosts.length < 5;
   }
 }

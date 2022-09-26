@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:posterr_flutter/src/external/external.dart';
 
 import '../../../data/models/models.dart';
 import '../../../domain/entities/post_entity.dart';
 import '../../../domain/helpers/helpers.dart';
+import '../models.dart';
 
 part 'local_post_model.g.dart';
 
@@ -29,6 +29,9 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
 
   @HiveField(5)
   final String? childId;
+  
+  @HiveField(6)
+  final LocalPostModel? child; 
 
   LocalPostModel({
     required this.author,
@@ -37,11 +40,13 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
     this.text,
     this.childId,
     this.id,
+    this.child
   });
 
   LocalPostModel copy({
     String? id,
     String? type,
+    LocalPostModel? child
   }) {
     return LocalPostModel(
       id: id ?? this.id,
@@ -50,6 +55,7 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       creationDate: creationDate,
       text: text,
       childId: childId,
+      child: child ?? this.child
     );
   }
 
@@ -61,17 +67,20 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
       author: author.toEntity(),
       type: _getType(type),
       text: text,
-      childId: childId
+      childId: childId,
+      child: child?.toEntity()
     );
   }
 
   factory LocalPostModel.fromEntity(PostEntity e) {
     return LocalPostModel(
+      id: e.id,
       author: LocalUserModel.fromEntity(e.author),
       creationDate: e.createdAt,
       type: _getTypeString(e.type),
       text: e.text,
-      childId: e.childId
+      childId: e.childId,
+      child: e.child != null ? LocalPostModel.fromEntity(e.child!) : null
     );
   }
 
@@ -88,5 +97,5 @@ class LocalPostModel extends HiveObject with EquatableMixin implements PostModel
   }
 
   @override
-  List<Object?> get props => [author, id, text, childId, type, creationDate];
+  List<Object?> get props => [author, id, text, childId, type, creationDate, child];
 }

@@ -24,6 +24,7 @@ class Feed extends StatelessWidget {
   });
 
   final userSession = GetIt.I.get<UserSessionService>();
+  final repostAndQuotedTypes = [PostType.repost, PostType.quote];
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +36,18 @@ class Feed extends StatelessWidget {
       itemCount: posts.length,
       itemBuilder: (context, index) {
         final post = posts[index];
-        if (post.type == PostType.repost) {
+        final child = post.child;
+        if (repostAndQuotedTypes.contains(post.type) && child != null) {
           return RepostCard(
             date: post.createdAt.humanized(), 
             author: post.author.username, 
+            quote: post.type == PostType.quote ? post.text : null,
             childPostInfos: SimplePostCardViewModel(
-              postId: post.id!,
-              author: post.author.username,
-              date: post.createdAt.humanized(),
-              text: post.text ?? '',
-              showFooter: showActions && userSession.activeUser?.id != post.author.id,
+              postId: post.childId!,
+              author: child.author.username,
+              date: child.createdAt.humanized(),
+              text: child.text ?? '',
+              showFooter: false
             )
           );
         }
@@ -61,7 +64,7 @@ class Feed extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
-        height: Spacing.x2,
+        height: Spacing.x1,
       ),
     );
   }
