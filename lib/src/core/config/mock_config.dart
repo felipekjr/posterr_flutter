@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:posterr_flutter/src/core/consts/consts.dart';
-import 'package:posterr_flutter/src/core/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/consts/consts.dart';
+import '../../core/services/services.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/helpers/helpers.dart';
 import '../factories/data_sources/data_sources.dart';
@@ -13,7 +13,7 @@ class MockConfig {
     final postDS = makeLocalPostDataSource();
 
     // Setup active user
-    const activeUsername = 'John Doe';
+    const activeUsername = 'johndoe';
     final userSession = GetIt.I.get<UserSessionService>();
     final activeUser = await userDS.save( UserEntity(username: activeUsername, createdAt: DateTime.now()));
 
@@ -28,31 +28,57 @@ class MockConfig {
     }
 
     // Create users
-    final otherUser = await userDS.save(UserEntity(
-        username: 'Davi Dias',
+    final secondUser = await userDS.save(UserEntity(
+        username: 'davidias12',
         createdAt: DateTime.now().subtract(const Duration(days: 20),),),);
-    userDS.save(UserEntity(
-        username: 'John Doe',
+    final thirdUser = await userDS.save(UserEntity(
+        username: 'marcosl2',
         createdAt: DateTime.now().subtract(const Duration(days: 2))));
-    userDS.save(UserEntity(
-        username: 'Davi Dias',
+    final fourthUser = await userDS.save(UserEntity(
+        username: 'felipekjr',
         createdAt: DateTime.now().subtract(const Duration(days: 1))));
 
     // Create initial posts
     postDS.save(
       PostEntity(
         createdAt: DateTime.now(),
-        author: otherUser.toEntity(),
+        author: secondUser.toEntity(),
         type: PostType.normal,
         text: 'Hello world! This is my first post on Posterr and this is amazing!'
       ),
     );
     postDS.save(
       PostEntity(
+        createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
+        author: thirdUser.toEntity(),
+        type: PostType.normal,
+        text: 'Hello world!'
+      ),
+    );
+    postDS.save(
+      PostEntity(
+        createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
+        author: fourthUser.toEntity(),
+        type: PostType.normal,
+        text: 'Good morning'
+      ),
+    );
+    final secondMockPost = await postDS.save(
+      PostEntity(
         createdAt: DateTime.now().subtract(const Duration(days: 3)),
-        author: otherUser.toEntity(),
+        author: fourthUser.toEntity(),
         type: PostType.normal,
         text: 'Have a nice day'
+      ),
+    );
+    postDS.save(
+      PostEntity(
+        createdAt: DateTime.now().subtract(const Duration(days: 2)),
+        author: activeUser.toEntity(),
+        type: PostType.quote,
+        text: ':)',
+        child: secondMockPost.toEntity(),
+        childId: secondMockPost.id
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
-import 'package:posterr_flutter/src/domain/usecases/get_user_use_case.dart';
+
+import '../../domain/entities/user_entity.dart';
+import '../../domain/usecases/get_user_use_case.dart';
 
 class UserSessionService {
   final GetUser getUser;

@@ -11,11 +11,16 @@ class LocalUserDataSource implements UserDataSource<LocalUserModel> {
 
   @override
   Future<LocalUserModel> save(UserEntity user) async {
-    final userModel = LocalUserModel.fromEntity(user);
-    final id = await box.add(userModel);
-    final userWithId = userModel.copy(id: id.toString());
-    await box.put(id, userWithId);
-    return userWithId;
+    if (user.isValid()) {
+      final userModel = LocalUserModel.fromEntity(user);
+      final id = await box.add(userModel);
+      final userWithId = userModel.copy(id: id.toString());
+      await box.put(id, userWithId);
+      return userWithId;
+    } else {
+      throw Exception('Invalid username');
+    }
+   
   }
 
   @override

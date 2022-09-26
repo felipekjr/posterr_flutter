@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
-import 'package:posterr_flutter/src/core/extensions/extensions.dart';
-import 'package:posterr_flutter/src/ui/pages/base_page.dart';
-import 'package:posterr_flutter/src/ui/pages/pages.dart';
-import 'package:posterr_flutter/src/ui/widgets/widgets.dart';
 
+import '../../../core/extensions/extensions.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/helpers/helpers.dart';
+import '../../../ui/pages/base_page.dart';
+import '../../../ui/pages/pages.dart';
+import '../../../ui/widgets/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({

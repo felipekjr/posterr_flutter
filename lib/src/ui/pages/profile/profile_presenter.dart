@@ -11,6 +11,7 @@ abstract class ProfilePresenter extends BasePresenter {
   
   // Future<void> getLoggedUser();
   Future<void> getPosts();
+
   Future<void> makeSimplePost({
     required String text,
   });

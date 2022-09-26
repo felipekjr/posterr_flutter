@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:posterr_flutter/src/core/services/services.dart';
-import 'package:posterr_flutter/src/domain/usecases/usecases.dart';
 
+import '../../../core/services/services.dart';
+import '../../../domain/usecases/usecases.dart';
 import '../../../presentation/value_notifier_profile_presenter.dart';
 import '../../../ui/pages/pages.dart';
 

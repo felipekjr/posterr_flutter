@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../core/validators/validators.dart';
+
 class UserEntity extends Equatable {
   final String? id;
   final String username;
@@ -19,6 +21,8 @@ class UserEntity extends Equatable {
         createdAt: createdAt,
         id: id ?? this.id,
       );
+
+  bool isValid() => username.length <= 14 && StringValidators.hasNoSpecialCharacteres(username);
 
   @override
   List<Object?> get props => [username, createdAt, id];

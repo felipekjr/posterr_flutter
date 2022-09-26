@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:posterr_flutter/src/domain/entities/user_entity.dart';
 
+import './user_entity.dart';
 import '../helpers/helpers.dart';
 
 class PostEntity extends Equatable {

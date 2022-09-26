@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:posterr_design_system/posterr_design_system.dart';
-import 'package:posterr_flutter/src/core/services/user_session_service.dart';
-import 'package:posterr_flutter/src/domain/helpers/helpers.dart';
 
 import '../../core/extensions/extensions.dart';
+import '../../core/services/user_session_service.dart';
 import '../../domain/entities/entities.dart';
+import '../../domain/helpers/helpers.dart';
 
 class Feed extends StatelessWidget {
   final List<PostEntity> posts;
