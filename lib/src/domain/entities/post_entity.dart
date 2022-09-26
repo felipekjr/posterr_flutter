@@ -43,6 +43,6 @@ class PostEntity extends Equatable {
   );
 
   @override
-  List<Object?> get props => [id, createdAt, author, type, text, childId, child];
+  List<Object?> get props => [id, author, type, text, childId, child];
 }
 

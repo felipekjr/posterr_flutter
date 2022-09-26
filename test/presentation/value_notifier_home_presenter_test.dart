@@ -49,13 +49,13 @@ void main() {
         () async {
       final fakeUser = FakeUserFactory.makeFakeUser();
       final postEntity = FakePostFactory.makeFakePost();
-      userSessionServiceMock.mockUsername(fakeUser.username);
+      userSessionServiceMock.mockUsername(fakeUser);
 
       await sut.makeNewPost(postEntity, postType: PostType.normal);
       verify(
         () => createPostMock.call(
           postEntity.copy(
-            author: fakeUser.username,
+            author: fakeUser,
           ),
         ),
       ).called(1);
@@ -65,16 +65,16 @@ void main() {
         () async {
       final fakeUser = FakeUserFactory.makeFakeUser();
       final postEntity = FakePostFactory.makeFakePost();
-      userSessionServiceMock.mockUsername(fakeUser.username);
+      userSessionServiceMock.mockUsername(fakeUser);
 
       await sut.makeNewPost(postEntity, postType: PostType.repost);
 
       verify(
         () => createRepostMock.call(
-          post: postEntity.copy(
-            author: fakeUser.username,
+          childPost: postEntity.copy(
+            author: postEntity.author,
           ),
-          newAuthor: fakeUser.username,
+          newAuthor: fakeUser,
         ),
       ).called(1);
     });
@@ -84,7 +84,7 @@ void main() {
       final fakeUser = FakeUserFactory.makeFakeUser();
       final postEntity = FakePostFactory.makeFakePost();
       final fakeQuote = faker.lorem.sentence();
-      userSessionServiceMock.mockUsername(fakeUser.username);
+      userSessionServiceMock.mockUsername(fakeUser);
 
       await sut.makeNewPost(
         postEntity,
@@ -94,8 +94,8 @@ void main() {
 
       verify(
         () => createQuoteMock.call(
-          post: postEntity.copy(author: fakeUser.username),
-          quoteAuthor: fakeUser.username,
+          childPost: postEntity,
+          quoteAuthor: fakeUser,
           text: fakeQuote,
         ),
       ).called(1);
